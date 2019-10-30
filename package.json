@@ -1,0 +1,27 @@
+{
+  "name": "circlek",
+  "version": "1.0.0",
+  "description": "Main website template for Georgia Tech CircleK",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start" : "node app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Nepal-6D48A0/CircleK.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Nepal-6D48A0/CircleK/issues"
+  },
+  "homepage": "https://github.com/Nepal-6D48A0/CircleK#readme",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "ejs": "^2.7.1",
+    "express": "^4.17.1",
+    "mongo": "^0.1.0",
+    "nodemon": "^1.19.4"
+  }
+}
