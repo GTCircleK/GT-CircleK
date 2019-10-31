@@ -1,0 +1,116 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <title><%= project.title %> | GT Circle K</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.css">
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/justifiedGallery/3.7.0/css/justifiedGallery.min.css">
+    <% include partials/head.ejs %>
+</head>
+
+<body class="is-preload">
+
+    <div id="page-wrapper">
+
+        <% include partials/navbar.ejs %>
+
+        <section id="wrapper">
+            <header>
+                <div class="inner">
+                    <h2><%= project.title %></h2>
+                    <p><%= project.summary %></p>
+                </div>
+            </header>
+
+            <div class="wrapper">
+                <div class="inner">
+
+                    <% if (project.hasOwnProperty('who')) { %>
+                    <h3 class="major">Who</h3>
+                    <p><%= project.who %>​</p>
+                    <% } %>
+
+                    <% if (project.hasOwnProperty('what')) { %>
+                    <h3 class="major">What</h3>
+                    <p><%= project.what %>​</p>
+                    <% } %>
+
+                    <% if (project.hasOwnProperty('details')) { %>
+                    <h3 class="major">Details</h3>
+                    <ul class="contact">
+
+                        <% if (project['details'].hasOwnProperty('address')) { %>
+                        <li class="icon solid fa-home">
+                            <% if (project['details'].hasOwnProperty('location')) { %>
+                            <%= project['details'].location %>​ <br>
+                            <% } %>
+                            <%= project['details'].address %>
+                        </li>
+                        <% } %>
+
+                        <% if (project['details'].hasOwnProperty('time')) { %>
+                        <li class="icon solid fa-clock"><%= project['details'].time %></li>
+                        <% } %>
+
+                        <% if (project['details'].hasOwnProperty('pickup')) { %>
+                        <li class="icon solid fa-location-arrow"><%= project['details'].pickup %>​ </li>
+                        <% } %>
+
+                        <% if (project['details'].hasOwnProperty('dress')) { %>
+                        <li class="icon solid fa-tshirt"><%= project['details'].dress %>​ </li>
+                        <% } %>
+
+                    </ul>
+                    <% } %>
+
+                    <% if (project.hasOwnProperty('extra')){ %> 
+                        <p><%= project.extra %></p>
+                    <% } %> 
+
+                    <% if (project.hasOwnProperty('link')){ %> 
+                        <p><a href="<%= project.link %>" target="_blank" class="button primary">Sign Up</a></p>
+                    <% } %> 
+
+                    
+
+
+                    <p>Please join our <a href="https://groupme.com/join_group/49705520/fLu3rQT3" target="_blank"
+                            class="dotted-line">Group
+                            Me</a> chat for more details and updates. <br>
+                        This will allow us to make travel arrangements and communicate easily.</p>
+
+
+                    <% if (project.hasOwnProperty('images') && project.images.length > 0){ %>
+
+                    <h3 class="major">Photo Gallery</h3>
+                    <div id="gallery">
+                        <% project.images.forEach(image => { %>
+                        <a href="<%= project.imagePath %><%= image %>" data-fancybox="gallery" data-caption="">
+                            <img src="<%= project.imagePath %><%= image %>" alt="" />
+                        </a>
+                        <% }); %>
+
+                    </div>
+                    <% } %>
+
+
+                </div>
+            </div>
+
+        </section>
+
+        <% include partials/footer.ejs %>
+
+    </div>
+
+    <% include partials/common-scripts.ejs %>
+
+    <% if (project.hasOwnProperty('images') && project.images.length > 0){ %>
+        <% include partials/gallery-view.ejs %>
+    <% } %>
+
+</body>
+
+</html>

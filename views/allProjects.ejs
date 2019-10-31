@@ -1,0 +1,73 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+	<title>Projects | GT Circle K</title>
+	<meta charset="utf-8" />
+	<% include partials/head.ejs %>
+</head>
+
+<body class="is-preload">
+
+	<div id="page-wrapper">
+
+		<% include partials/navbar.ejs %>
+
+		<section id="wrapper">
+			<header>
+				<div class="inner">
+					<h2>Projects</h2>
+					<p>See all of our service projects</p>
+				</div>
+			</header>
+
+			<div class="wrapper">
+				<div class="inner">
+
+					<p>Please join our <a href="https://groupme.com/join_group/49705520/fLu3rQT3" target="_blank"
+							class="dotted-line">Group
+							Me</a> chat for more details and updates. <br>
+						This will allow us to make travel arrangements and communicate easily.</p>
+
+
+					<h3 class="major">Active Projects</h3>
+					<section class="features">
+
+						<% projects.forEach(project => { %>
+						<article>
+							<a href="/projects/<%= project.id %>" class="image"><img src="<%= project.logo %>"
+									alt="" /></a>
+							<h3 class="major"><%= project.title %></h3>
+							<p><%= project.summary %></p>
+							<a href="/projects/<%= project.id %>" class="special">Learn more</a>
+						</article>
+						<% }); %>
+
+					</section>
+
+					<!-- <h3 class="major">Past Projects</h3>
+					<section class="features">
+						<article>
+							<a href="#" class="image"><img src="images/pic01.jpg" alt="" /></a>
+							<h3 class="major">Georgia District Day of Service</h3>
+							<p>.........</p>
+							<a href="#" class="special">Learn more</a>
+						</article>
+					</section> -->
+
+
+
+				</div>
+			</div>
+
+		</section>
+
+		<% include partials/footer.ejs %>
+
+	</div>
+
+	<% include partials/common-scripts.ejs %>
+
+</body>
+
+</html>
