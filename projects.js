@@ -44,7 +44,7 @@ var projects = [
         logo: 'images/Logos/kiwanis-logo.jpg',
         details: {
             location: "Second-Ponce de Leon Baptist Church",
-            address: "2715 Peachtree Rd. NE,, Atlanta, GA 30305",
+            address: "2715 Peachtree Rd. NE, Atlanta, GA 30305",
             time: "Thursdays, 12:00 - 2:00 pm",
             pickup: "Pickup TBD (we will contact you)",
             dress: "You don't need to \"dress up\" but don't wear a t-shirt, flip flops, or any inappropriate clothing."
