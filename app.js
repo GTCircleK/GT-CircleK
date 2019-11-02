@@ -34,7 +34,7 @@ app.get('/projects/:id', (req, res) => {
         res.render('project', {project: projectList[0]});
     }
     else{
-        res.redirect('/unavailable');
+        res.render('unavailable');
     }
     
 });
@@ -50,7 +50,7 @@ app.get('/data/upcomingEvents', (req, res) => {
     //verify the events have not ended    
     var allEvents = eventsData['events'];
     allEvents = allEvents.filter(event => !eventHasEnded(event['to']));
-        
+
     res.send({events: allEvents});
 });
 
@@ -62,9 +62,10 @@ app.get('/data/allEvents', (req, res) => {
     res.status(404).send('No a valid endpoint');
 });
 
+
 app.get('*', (req, res) => {
-    res.send('Page not found :(');
-});
+    res.render('unavailable');
+})
 
 
 const PORT = process.env.PORT || 8080;

@@ -65,15 +65,15 @@
                     </ul>
                     <% } %>
 
-                    <% if (project.hasOwnProperty('extra')){ %> 
-                        <p><%= project.extra %></p>
-                    <% } %> 
+                    <% if (project.hasOwnProperty('extra')){ %>
+                    <p><%= project.extra %></p>
+                    <% } %>
 
-                    <% if (project.hasOwnProperty('link')){ %> 
-                        <p><a href="<%= project.link %>" target="_blank" class="button primary">Sign Up</a></p>
-                    <% } %> 
+                    <% if (project.hasOwnProperty('link')){ %>
+                    <p><a href="<%= project.link %>" target="_blank" class="button primary">Sign Up</a></p>
+                    <% } %>
 
-                    
+
 
 
                     <p>Please join our <a href="https://groupme.com/join_group/49705520/fLu3rQT3" target="_blank"
@@ -95,8 +95,14 @@
                     </div>
                     <% } %>
 
+                    <div style="margin-top: 2em; text-align: center;">
+                        <p><a href="/projects" class="button primary mg-3">See other projects</a></p>
+                    </div>
 
                 </div>
+
+
+
             </div>
 
         </section>
@@ -108,7 +114,7 @@
     <% include partials/common-scripts.ejs %>
 
     <% if (project.hasOwnProperty('images') && project.images.length > 0){ %>
-        <% include partials/gallery-view.ejs %>
+    <% include partials/gallery-view.ejs %>
     <% } %>
 
 </body>

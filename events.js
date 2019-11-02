@@ -17,14 +17,6 @@ Remove the attribute if no entries for it
 
 let events = [
     {
-        'title': 'Test Event',
-        'multiDay': false,
-        'from': '2019-10-02T16:00:00',
-        'to': '2019-10-02T20:00:00',
-        'description': 'Enter description here',
-        'address': 'Enter Address here',        
-    },
-    {
         'title': 'Kiwanis Henry County Fair',
         'multiDay': false,
         'from': '2019-11-02T16:00:00',
