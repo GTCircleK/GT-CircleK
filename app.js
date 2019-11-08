@@ -1,10 +1,12 @@
 let express = require('express'),
     eventsData = require('./events'),
-    projectsData = require('./projects');
+    projectsData = require('./projects'),
+    bodyParser = require('body-parser');
 
 let app = express();
 app.set('view engine', 'ejs');
 app.use(express.static('public'));
+app.use(bodyParser.urlencoded({ extended: true })).use(bodyParser.json());
 
 // ------------------ Website Endpoints ------------------------
 app.get('/', (req, res) => {
@@ -43,6 +45,15 @@ app.get('/events', (req, res) => {
     res.render('events');
 });
 
+// ---------------- Admin Tools ------------------
+app.get('/events/create', (req, res) => {
+    res.render('admin/newEvent');
+});
+
+app.post('/events', (req, res) => {
+    console.log(req.body.event);
+    res.send(req.body.event);
+});
 
 
 // ------------------ API ------------------------

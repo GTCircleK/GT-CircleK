@@ -71,6 +71,22 @@ var projects = [
         imagePath: '/images/Pictures/treesAtlanta/',
         images: ['b4-pic-forgot-after-pic_orig.jpg', 'img-2165_orig.jpg', 'img-2167_orig.jpg', 'img-2168_orig.jpg', 'img-2177_orig.jpg', 'img-2181_orig.jpg', 'img-2377_orig.jpg', 'IMG_0222.JPG', 'IMG_0624.JPG', 'IMG_0627.JPG', 'IMG_0629.JPG', 'IMG_0633.JPG', 'IMG_0635.JPG', 'IMG_0637.JPG', 'IMG_0645.JPG', 'IMG_0648.JPG', 'IMG_0650.JPG', 'IMG_0652.JPG', 'IMG_0654.JPG', 'IMG_0657.JPG', 'IMG_0658.JPG', 'trees1_orig.jpg', 'trees3_orig.jpg', 'wormm_orig.jpg']
     },
+    {
+        id: '5',
+        title: 'Food4Lives',
+        summary: 'Helping to unload and to organize shipments of food and winter clothes',
+        logo: 'images/Logos/food4lives.png',
+        who: "Food4Lives is a service family founded by students from Georgia Tech and Emory in 2017 to feed, educate and empower the homeless of Atlanta. Desire Tree Foundation Inc. is an official 501(c)3 non-profit registered with the IRS - Social Charity Work organization. We serve the homeless in 3 simple ways: Annadanam (Feeding the homeless for free), Vastradanam (Providing the homeless basic physical needs and shelter) and Vidyadanam (Educating the homeless for free).",
+        what: "Food for lives is the organization, working to focus on underserved and low-resourced communities. Volunteers plays a vital role in our efforts to end hunger in the United States. With the support of volunteers, the food for life is helping homeless to build a better future. General tasks inclues Unloading, storing, and reorganizing shipments of food, Organizing our dry goods and pantry items, and Sorting and packing winter clothes to distribute",
+        details: {
+            address: "1122 Old Chattahoochee Ave NW, Atlanta, GA 30318",
+            time: "Wednesday, 6:00 - 8:00 pm",
+            pickup: "TBD",
+            dress: "Closed toed shoes"
+        },
+        link: "https://docs.google.com/forms/d/e/1FAIpQLSfS0oq3qhmgwE9pOHPc7VyBmfnGAnfcWH-FAs7r_UIQrnRq6A/viewform",
+        extra: "Contact Sam Rapoport (404-421-2038) if interested in volunteering from 12 - 3 pm or 9:30 am - 2 pm on Saturdays"        
+    }
 ];
 
 module.exports = projects;

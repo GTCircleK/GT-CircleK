@@ -3,11 +3,11 @@
 Remove the attribute if no entries for it
 {
     'title': '',
-    'multiDay': true
-    'date': 'YYYY-MM-DDTHH:MM:SSZ',
+    'multiDay': true,
+    'from': '2019-10-29T18:00:00',
+    'to': '2019-10-29T19:00:00',
     'description': '',
     'address': '',
-    'time' : '',
     'pickup': '',
     'dress': '',
     'link': '',
@@ -16,6 +16,36 @@ Remove the attribute if no entries for it
 */
 
 let events = [
+    {
+        'title': '',
+        'multiDay': true,
+        'from': '2019-10-29T18:00:00',
+        'to': '2019-10-29T19:00:00',
+        'description': '',
+        'address': '',
+        'pickup': '',
+        'dress': '',
+        'link': '',
+        'special': ''
+    },
+    {
+        'title': 'Pumpkin and Gourd Painting',
+        'multiDay': false,
+        'from': '2019-10-29T18:00:00',
+        'to': '2019-10-29T19:00:00',
+        'description': 'Come have some fun and relax by painting a pumpkin or gourd!',
+        'address': 'Instructional Center 211'
+    },
+    {
+        'title': 'Trick or Treating',
+        'multiDay': true,
+        'from': '2019-10-31T17:00:00',
+        'to': '2019-10-31T21:00:00',
+        'description': 'Trick or treating to fundraise for UNICEF',
+        'address': 'TBD. Let us know if there\'s an ATL neighborhood you recommend!',
+        'dress': 'Show us your best',
+        'special': 'Text Lucy (912- 506-2716) if you want to go'
+    },
     {
         'title': 'Kiwanis Henry County Fair',
         'multiDay': false,
@@ -40,9 +70,9 @@ let events = [
         'title': 'Penny Wars',
         'multiDay': true,
         'from': '2019-09-16',
-        'to': '2019-11-18',        
+        'to': '2019-11-18',
         'description': 'This is a fundraiser for WASH. We are competing against UGA to see which club raises the most money. Prize for whoever raises the most money in the club.'
     }
 ];
 
-module.exports = {events};
+module.exports = { events };
