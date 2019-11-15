@@ -122,12 +122,15 @@ input, select, textarea {
 
 /* Type */
 
-	body, input, select, textarea {
-		color: #ffffff;
+	body, input, select, textarea {		
 		font-family: "Source Sans Pro", Helvetica, sans-serif;
 		font-size: 16.5pt;
 		font-weight: 300;
 		line-height: 1.65;
+	}
+
+	body{
+		color: #ffffff;
 	}
 
 		@media screen and (max-width: 1680px) {
@@ -292,6 +295,10 @@ input, select, textarea {
 		border-right: none;
 	}
 
+	.black-font{
+		color: black;
+	}
+
 	.event .contact li{
 		margin: 0.75em 0 0 0;
 	}
@@ -316,6 +323,13 @@ input, select, textarea {
 
 	#calender-link{
 		display: none;
+	}
+
+	#mutliday-option{
+		width: 100%;
+		padding-left: 24px;
+		display: flex;
+		justify-content: space-evenly;
 	}
 
 		h1 a, h2 a, h3 a, h4 a, h5 a, h6 a {
@@ -2234,7 +2248,7 @@ input, select, textarea {
 		}
 
 	label {
-		color: #ffffff;
+		color: black;
 		display: block;
 		font-family: Raleway, Helvetica, sans-serif;
 		font-size: 0.8em;
@@ -2248,6 +2262,8 @@ input, select, textarea {
 	input[type="password"],
 	input[type="email"],
 	input[type="tel"],
+	input[type="date"],
+	input[type="datetime-local"],
 	select,
 	textarea {
 		-moz-appearance: none;
@@ -2255,9 +2271,10 @@ input, select, textarea {
 		-ms-appearance: none;
 		appearance: none;
 		background: rgba(255, 255, 255, 0.025);
+		box-shadow: 0 0 17px 3px rgba(184,184,184,.5);
 		border-radius: 5px;
 		border: none;
-		border: solid 2px rgba(255, 255, 255, 0.125);
+		/* border: solid 2px gold; */
 		color: inherit;
 		display: block;
 		outline: 0;
@@ -2266,13 +2283,17 @@ input, select, textarea {
 		width: 100%;
 	}
 
+	input[type="date"]{
+		width: auto;
+	}
+
 		input[type="text"]:invalid,
 		input[type="password"]:invalid,
 		input[type="email"]:invalid,
 		input[type="tel"]:invalid,
 		select:invalid,
 		textarea:invalid {
-			box-shadow: none;
+			/* box-shadow: none; */
 		}
 
 		input[type="text"]:focus,
@@ -2327,15 +2348,19 @@ input, select, textarea {
 		display: block;
 		float: left;
 		margin-right: -2em;
-		opacity: 0;
+		/* opacity: 0; */
 		width: 1em;
+		height: 1em;
 		z-index: -1;
+		background: white;
+		content: '\t';
+		box-shadow: 0 0 17px 3px rgba(184,184,184,.5);
 	}
 
 		input[type="checkbox"] + label,
 		input[type="radio"] + label {
 			text-decoration: none;
-			color: #ffffff;
+			color: black;
 			cursor: pointer;
 			display: inline-block;
 			font-size: 1em;
@@ -2381,10 +2406,10 @@ input, select, textarea {
 
 		input[type="checkbox"]:checked + label:before,
 		input[type="radio"]:checked + label:before {
-			background: #ffffff;
+			background: gold;
 			border-color: #ffffff;
 			content: '\f00c';
-			color: #2e3141;
+			color: white;
 		}
 
 		input[type="checkbox"]:focus + label:before,
@@ -2401,22 +2426,22 @@ input, select, textarea {
 	}
 
 	::-webkit-input-placeholder {
-		color: rgba(255, 255, 255, 0.35) !important;
+		color: rgba(0, 0, 0, 0.35) !important;
 		opacity: 1.0;
 	}
 
 	:-moz-placeholder {
-		color: rgba(255, 255, 255, 0.35) !important;
+		color: rgba(0, 0, 0, 0.35) !important;
 		opacity: 1.0;
 	}
 
 	::-moz-placeholder {
-		color: rgba(255, 255, 255, 0.35) !important;
+		color: rgba(0, 0, 0, 0.35) !important;
 		opacity: 1.0;
 	}
 
 	:-ms-input-placeholder {
-		color: rgba(255, 255, 255, 0.35) !important;
+		color: rgba(0, 0, 0, 0.35) !important;
 		opacity: 1.0;
 	}
 
@@ -2939,7 +2964,8 @@ input, select, textarea {
 		border-radius: 5px;
 		border: 0;
 		box-shadow: inset 0 0 0 2px rgba(255, 255, 255, 0.125);
-		color: #ffffff !important;
+		background-color: black;
+		color: white !important;
 		cursor: pointer;
 		display: inline-block;
 		font-family: Raleway, Helvetica, sans-serif;
@@ -2960,7 +2986,8 @@ input, select, textarea {
 		input[type="button"]:hover,
 		button:hover,
 		.button:hover {
-			background-color: rgba(255, 255, 255, 0.025);
+			background-color: gold;
+			color: black;
 		}
 
 		input[type="submit"]:active,
@@ -3108,6 +3135,12 @@ input, select, textarea {
 			.features article {
 				margin: 1em 2em 1em 0;
 				width: calc(50% - 1em);
+			}
+
+			#mutliday-option{
+				display: flex;
+				flex-direction: column;
+				width: auto;
 			}
 
 		}

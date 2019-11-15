@@ -1,10 +1,24 @@
 let express = require('express'),
     eventsData = require('./events'),
-    projectsData = require('./projects');
+    projectsData = require('./projects'),
+    bodyParser = require('body-parser'),
+    Project = require('./models/project'),
+    Event = require('./models/event'),
+    Configuration = require('./configuration'),
+    mongoose = require('mongoose');
 
 let app = express();
 app.set('view engine', 'ejs');
 app.use(express.static('public'));
+app.use(bodyParser.urlencoded({ extended: true })).use(bodyParser.json());
+
+// ------------------ Database setup --------------------------
+mongoose.connect(Configuration.databaseUrl, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+});
+
+
 
 // ------------------ Website Endpoints ------------------------
 app.get('/', (req, res) => {
@@ -24,51 +38,114 @@ app.get('/join', (req, res) => {
 });
 
 app.get('/projects', (req, res) => {
-    res.render('allProjects', {projects: projectsData});
+    Project.find({}, (err, projects) => {
+        if (err) {
+            res.render('allProjects', { projects: projectsData });
+        }
+        else {
+            res.render('allProjects', { projects: projects });
+        }
+    });
+
 });
 
 app.get('/projects/:id', (req, res) => {
-    // TODO - add record to database and retrive from there
-    let projectList = projectsData.filter(project => project['id'] == req.params.id);    
-    if (projectList.length > 0){
-        res.render('project', {project: projectList[0]});
-    }
-    else{
-        res.render('unavailable');
-    }
-    
+    var id = req.params.id;
+
+    Project.findById(id, (err, item) => {
+        if (err) {
+            let projectList = projectsData.filter(project => project['id'] == req.params.id);
+            if (projectList.length > 0) {
+                res.render('project', { project: projectList[0] });
+            }
+            else {
+                res.render('unavailable');
+            }
+        }
+        else {
+            res.render('project', { project: item });
+        }
+    });
 });
 
 app.get('/events', (req, res) => {
     res.render('events');
 });
 
-
-
 // ------------------ API ------------------------
-app.get('/data/upcomingEvents', (req, res) => {    
-    //verify the events have not ended    
-    var allEvents = eventsData['events'];
-    allEvents = allEvents.filter(event => !eventHasEnded(event['to']));
+app.get('/data/upcomingEvents', (req, res) => {
+    var currentDate = new Date().toISOString();
+    Event.find({to: {$gte: currentDate}}, (err, events) => {
+        if (err) {
+            res.send(503).send({
+                message: 'Error retrieving documents from database'
+            });
+        }
+        else {
+            console.log(events);
+            res.send(events);
+        }
+    });
 
-    res.send({events: allEvents});
+
 });
-
-function eventHasEnded(compareDate){
-    return (new Date(compareDate)) < (new Date());
-}
 
 app.get('/data/allEvents', (req, res) => {
-    res.status(404).send('No a valid endpoint');
+    Event.find({}, (err, events) => {
+        if (err) {
+            res.send(503).send({
+                message: 'Error retrieving documents from database'
+            });
+        }
+        else {
+            res.send(events);
+        }
+    });
 });
 
 
-app.get('*', (req, res) => {
-    res.render('unavailable');
-})
+// ---------------- Admin Tools ------------------
+app.get('/login', (req, res) => {
+    res.render('admin/login')
+});
+
+
+// // ------------------ New Events handler ----------------
+// app.get('/events/create', isUserAuthenticated, (req, res) => {
+//     res.render('admin/newEvent');
+// });
+
+// app.post('/events',isUserAuthenticated, (req, res) => {
+//     console.log(req.body.event);
+//     res.send(req.body.event);
+
+//     Event.save(req.body.event, (err, newEvent) => {
+//         if (err){
+//             res.redirect('/events/create');
+//         }
+
+//         res.redirect('events');
+//     });
+// });
+
+// // ---------------------- New Project Handler --------------------------------
+// app.get('/projects/create', isUserAuthenticated, (req, res) => {
+//     res.render('admin/newProject');
+// });
+
+// app.post('/projects', isUserAuthenticated, (req, res) => {
+//     var project = req.body.newProject;
+//     Project.save(project, (err, newProject) => {
+//         if (err){
+//             res.redirect('projects/create');
+//         }        
+//         res.redirect('/projects/' + newProject._id);
+//     });     
+// });
 
 
 const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => {
     console.log('Starting the connection to the server');
 });
+

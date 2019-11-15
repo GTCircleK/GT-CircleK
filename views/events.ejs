@@ -33,6 +33,7 @@
 							class="dotted-line">Group
 							Me</a> chat for more updates and reminder.</p>
 
+					<p>Please visit our <a href="/projects" class="dotted-line">projects page</a> to sign up for our regular weekly projects</p>		
 
 					<h3 class="major">See our Calender</h3>
 					<p id="calender-link">
@@ -67,7 +68,7 @@
 	<script>		
 
 		$.get('/data/upcomingEvents', function(data) {
-			createUpcomingEvents(data['events']);
+			createUpcomingEvents(data);
 		});
 
 		function createUpcomingEvents(events) {

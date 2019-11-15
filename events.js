@@ -1,13 +1,14 @@
 // TODO - Set up this schema in database
 /* Generic Event Format
 Remove the attribute if no entries for it
+Date is to be stored with timezone difference
 {
     'title': '',
-    'multiDay': true
-    'date': 'YYYY-MM-DDTHH:MM:SSZ',
+    'multiDay': true,
+    'from': '2019-10-29T18:00:00-05:00',
+    'to': '2019-10-29T19:00:00-05:00',
     'description': '',
     'address': '',
-    'time' : '',
     'pickup': '',
     'dress': '',
     'link': '',
@@ -17,10 +18,28 @@ Remove the attribute if no entries for it
 
 let events = [
     {
+        'title': 'Pumpkin and Gourd Painting',
+        'multiDay': false,
+        'from': '2019-10-29T18:00:00-05:00',
+        'to': '2019-10-29T19:00:00-05:00',
+        'description': 'Come have some fun and relax by painting a pumpkin or gourd!',
+        'address': 'Instructional Center 211'
+    },
+    {
+        'title': 'Trick or Treating',
+        'multiDay': true,
+        'from': '2019-10-31T17:00:00-05:00',
+        'to': '2019-10-31T21:00:00-05:00',
+        'description': 'Trick or treating to fundraise for UNICEF',
+        'address': 'TBD. Let us know if there\'s an ATL neighborhood you recommend!',
+        'dress': 'Show us your best',
+        'special': 'Text Lucy (912- 506-2716) if you want to go'
+    },
+    {
         'title': 'Kiwanis Henry County Fair',
         'multiDay': false,
-        'from': '2019-11-02T16:00:00',
-        'to': '2019-11-02T20:00:00',
+        'from': '2019-11-02T16:00:00-05:00',
+        'to': '2019-11-02T20:00:00-05:00',
         'description': 'Help out at the entrances and wherever else needed at the fair. Also meet other Circle K members from the Metro Division (Emory, GSU, Lagrange, West GA, Spelman, and Southern Crescent). There are two two-hour shifts (4 - 6 pm and 6 - 8 pm). Feel free to volunteer for one shift and explore the fair or volunteer for both shifts!',
         'address': '99 Lake Dow Rd, McDonough, GA 30252',
         'link': 'https://docs.google.com/forms/d/e/1FAIpQLScWmpUFRd_jrI4-i-UEhN-yw1C7kw8_CpPq9SMrMlje-S98FA/viewform'
@@ -40,9 +59,9 @@ let events = [
         'title': 'Penny Wars',
         'multiDay': true,
         'from': '2019-09-16',
-        'to': '2019-11-18',        
+        'to': '2019-11-18',
         'description': 'This is a fundraiser for WASH. We are competing against UGA to see which club raises the most money. Prize for whoever raises the most money in the club.'
     }
 ];
 
-module.exports = {events};
+module.exports = events;
