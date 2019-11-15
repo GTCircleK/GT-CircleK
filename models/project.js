@@ -8,9 +8,7 @@ var projectSchema = new mongoose.Schema({
     what: String,
     location: String,
     address: String,
-    day: String,
-    fromTime: Date,
-    toTime: Date,    
+    time: String,    
     pickup: String,
     dress: String,
     link: String,
@@ -19,4 +17,4 @@ var projectSchema = new mongoose.Schema({
     images: [{type: String}]
 });
 
-moodule.exports = mongoose.model('Project', projectSchema);
+module.exports = mongoose.model('Project', projectSchema);

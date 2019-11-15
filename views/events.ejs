@@ -68,7 +68,7 @@
 	<script>		
 
 		$.get('/data/upcomingEvents', function(data) {
-			createUpcomingEvents(data['events']);
+			createUpcomingEvents(data);
 		});
 
 		function createUpcomingEvents(events) {
