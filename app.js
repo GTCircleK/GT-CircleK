@@ -1,10 +1,11 @@
+require('dotenv').config();
+
 let express = require('express'),
     eventsData = require('./events'),
     projectsData = require('./projects'),
     bodyParser = require('body-parser'),
     Project = require('./models/project'),
     Event = require('./models/event'),
-    Configuration = require('./configuration'),
     mongoose = require('mongoose');
 
 let app = express();
@@ -13,10 +14,10 @@ app.use(express.static('public'));
 app.use(bodyParser.urlencoded({ extended: true })).use(bodyParser.json());
 
 // ------------------ Database setup --------------------------
-mongoose.connect(Configuration.databaseUrl, {
+mongoose.connect(process.env.MONGODB_URL, {
     useNewUrlParser: true,
     useUnifiedTopology: true
-});
+}).then(console.log('Connected to the database'));
 
 
 
@@ -82,7 +83,6 @@ app.get('/data/upcomingEvents', (req, res) => {
             });
         }
         else {
-            console.log(events);
             res.send(events);
         }
     });
