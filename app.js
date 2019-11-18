@@ -1,147 +1,36 @@
 require('dotenv').config();
 
 let express = require('express'),
-    eventsData = require('./events'),
-    projectsData = require('./projects'),
+    methodOverride = require('method-override'),
     bodyParser = require('body-parser'),
-    Project = require('./models/project'),
-    Event = require('./models/event'),
     mongoose = require('mongoose');
 
+    
+// <<<<<<<<<<<<<< Database setup >>>>>>>>>>>>>>>>>
+mongoose.connect(process.env.MONGODB_URL, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+}).then(console.log('Connected to the database')).catch((err) => console.log(err));
+
+
+// <<<<<<<<<< Express Configuration >>>>>>>>>>>>>>>
 let app = express();
 app.set('view engine', 'ejs');
 app.use(express.static('public'));
 app.use(bodyParser.urlencoded({ extended: true })).use(bodyParser.json());
-
-// ------------------ Database setup --------------------------
-mongoose.connect(process.env.MONGODB_URL, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true
-}).then(console.log('Connected to the database'));
+app.use(methodOverride('_method'));
 
 
+// <<<<<<<<<<<< Import Routes >>>>>>>>>>>>>>>>>>
+var basicRoutes = require('./routes/index'),
+    eventRoutes = require('./routes/eventRoute'),
+    projectRoutes = require('./routes/projectRoute'),
+    adminRoutes = require('./routes/adminRoute');
 
-// ------------------ Website Endpoints ------------------------
-app.get('/', (req, res) => {
-    res.render('home');
-});
-
-app.get('/about', (req, res) => {
-    res.render('about');
-});
-
-app.get('/resources', (req, res) => {
-    res.render('resources');
-});
-
-app.get('/join', (req, res) => {
-    res.render('join');
-});
-
-app.get('/projects', (req, res) => {
-    Project.find({}, (err, projects) => {
-        if (err) {
-            res.render('allProjects', { projects: projectsData });
-        }
-        else {
-            res.render('allProjects', { projects: projects });
-        }
-    });
-
-});
-
-app.get('/projects/:id', (req, res) => {
-    var id = req.params.id;
-
-    Project.findById(id, (err, item) => {
-        if (err) {
-            let projectList = projectsData.filter(project => project['id'] == req.params.id);
-            if (projectList.length > 0) {
-                res.render('project', { project: projectList[0] });
-            }
-            else {
-                res.render('unavailable');
-            }
-        }
-        else {
-            res.render('project', { project: item });
-        }
-    });
-});
-
-app.get('/events', (req, res) => {
-    res.render('events');
-});
-
-// ------------------ API ------------------------
-app.get('/data/upcomingEvents', (req, res) => {
-    var currentDate = new Date().toISOString();
-    Event.find({to: {$gte: currentDate}}, (err, events) => {
-        if (err) {
-            res.send(503).send({
-                message: 'Error retrieving documents from database'
-            });
-        }
-        else {
-            res.send(events);
-        }
-    });
-
-
-});
-
-app.get('/data/allEvents', (req, res) => {
-    Event.find({}, (err, events) => {
-        if (err) {
-            res.send(503).send({
-                message: 'Error retrieving documents from database'
-            });
-        }
-        else {
-            res.send(events);
-        }
-    });
-});
-
-
-// ---------------- Admin Tools ------------------
-app.get('/login', (req, res) => {
-    res.render('admin/login')
-});
-
-
-// // ------------------ New Events handler ----------------
-// app.get('/events/create', isUserAuthenticated, (req, res) => {
-//     res.render('admin/newEvent');
-// });
-
-// app.post('/events',isUserAuthenticated, (req, res) => {
-//     console.log(req.body.event);
-//     res.send(req.body.event);
-
-//     Event.save(req.body.event, (err, newEvent) => {
-//         if (err){
-//             res.redirect('/events/create');
-//         }
-
-//         res.redirect('events');
-//     });
-// });
-
-// // ---------------------- New Project Handler --------------------------------
-// app.get('/projects/create', isUserAuthenticated, (req, res) => {
-//     res.render('admin/newProject');
-// });
-
-// app.post('/projects', isUserAuthenticated, (req, res) => {
-//     var project = req.body.newProject;
-//     Project.save(project, (err, newProject) => {
-//         if (err){
-//             res.redirect('projects/create');
-//         }        
-//         res.redirect('/projects/' + newProject._id);
-//     });     
-// });
+app.use(basicRoutes);
+app.use(eventRoutes);
+app.use(projectRoutes);
+app.use(adminRoutes);
 
 
 const PORT = process.env.PORT || 8080;
