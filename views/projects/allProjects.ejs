@@ -4,14 +4,15 @@
 <head>
 	<title>Projects | GT Circle K</title>
 	<meta charset="utf-8" />
-	<% include partials/head.ejs %>
+	<% include ../partials/head.ejs %>
+
 </head>
 
 <body class="is-preload">
 
 	<div id="page-wrapper">
 
-		<% include partials/navbar.ejs %>
+		<% include ../partials/navbar.ejs %>
 
 		<section id="wrapper">
 			<header>
@@ -23,6 +24,8 @@
 
 			<div class="wrapper">
 				<div class="inner">
+
+					<% include ../partials/flashMessage.ejs %>
 
 					<p>Please join our <a href="https://groupme.com/join_group/49705520/fLu3rQT3" target="_blank"
 							class="dotted-line">Group Me</a> chat for more details and updates. <br>
@@ -52,6 +55,17 @@
 						</article>
 						<% }); %>
 
+						<% if (currentUser){ %>
+						<article
+							style="display: flex; justify-content: center; align-items: center; flex-direction: column;">
+							<a href="/projects/create" class="ui icon header centered">
+								<i class="circular icon">+</i>
+							</a>
+							<p>Add New Project</p>
+							<!-- <a href="/projects/create" class="special">Create New Project</a> -->
+						</article>
+						<% } %>
+
 					</section>
 
 					<!-- <h3 class="major">Past Projects</h3>
@@ -71,11 +85,11 @@
 
 		</section>
 
-		<% include partials/footer.ejs %>
+		<% include ../partials/footer.ejs %>
 
 	</div>
 
-	<% include partials/common-scripts.ejs %>
+	<% include ../partials/common-scripts.ejs %>
 
 </body>
 

@@ -275,6 +275,11 @@ input, select, textarea {
 		text-transform: uppercase;
 	}
 
+	.ui.segment{
+		border: none;
+		box-shadow: 0 0 17px 3px rgba(184,184,184,.5);
+	}
+
 	.committee h5{
 		color: black;
 		margin-bottom: 3px;

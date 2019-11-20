@@ -1,0 +1,184 @@
+<!DOCTYPE HTML>
+<!--
+	Solid State by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+
+<head>
+	<title>Events | GT Circle K</title>
+	<meta charset="utf-8" />
+	<% include ../partials/head.ejs %>
+</head>
+
+<body class="is-preload">
+
+	<!-- Page Wrapper -->
+	<div id="page-wrapper">
+
+		<% include ../partials/navbar.ejs %>
+
+		<section id="wrapper">
+			<header>
+				<div class="inner">
+					<h2>Events</h2>
+					<p>CircleK Loves to Keep Busy!</p>
+				</div>
+			</header>
+
+			<div class="wrapper">
+				<div class="inner">
+					<p>Please join our <a href="https://groupme.com/join_group/49705520/fLu3rQT3" target="_blank"
+							class="dotted-line">Group
+							Me</a> chat for more updates and reminder.</p>
+
+					<% include ../partials/flashMessage.ejs %>
+
+					<p>Please visit our <a href="/projects" class="dotted-line">projects page</a> to sign up for our
+						regular weekly projects</p>
+
+					<h3 class="major">See our Calender</h3>
+					<p id="calender-link">
+						<a href="https://calendar.google.com/calendar/embed?src=gatechcirclek%40gmail.com&ctz=America%2FNew_York"
+							target="blank" class="dotted-line"> Visit our Calender</a>
+					</p>
+
+					<p id="calender">
+						<iframe
+							src="https://calendar.google.com/calendar/b/5/embed?height=600&amp;wkst=1&amp;bgcolor=%23ffffff&amp;ctz=America%2FNew_York&amp;src=Z2F0ZWNoY2lyY2xla0BnbWFpbC5jb20&amp;src=ZW4udXNhI2hvbGlkYXlAZ3JvdXAudi5jYWxlbmRhci5nb29nbGUuY29t&amp;color=%230BBCB2&amp;color=%23007D39"
+							style="border-width:0" width="700" height="600" frameborder="0" scrolling="no"></iframe>
+					</p>
+
+					<br>
+
+
+					<div id="events">
+						<h3 class="major">Upcoming Events</h3>
+					</div>
+
+					<% if (currentUser) { %>
+					<a href="/events/create"><i class="fas fa-plus"></i> Add New Event </i></a>
+					<% } %>
+
+				</div>
+			</div>
+
+		</section>
+
+		<% include ../partials/footer.ejs %>
+
+	</div>
+
+	<% include ../partials/common-scripts.ejs %>
+
+	<script>
+
+		$.get('/api/upcomingEvents', function (data) {
+			createUpcomingEvents(data);
+		});
+
+		function createUpcomingEvents(events) {
+			var parentContainer = document.querySelector('#events');
+
+			if (events.length === 0) {
+				var container = document.createElement('div');
+				container.classList.add('event');
+
+				var info = document.createElement('p');
+				info.textContent = 'No upcoming events';
+				container.appendChild(info);
+				parentContainer.appendChild(container);
+			}
+			else {
+				events.forEach(event => {
+					var container = document.createElement('div');
+					container.classList.add('event');
+
+					// Title
+					var title = document.createElement('h3');
+					title.innerHTML = event['title'];
+
+					<% if (currentUser){ %>
+						var editLink = document.createElement('a');
+						editLink.href = '/events/' + event._id + '/edit';
+						editLink.target = '_blank';
+						editLink.innerHTML = '&emsp;<i class="fas fa-pencil-alt"></i>';
+						title.appendChild(editLink);
+					<% } %>					
+					container.appendChild(title);
+
+					//Date
+					var dateElement = document.createElement('p');
+					var dateString = "";
+					var from = new Date(event['from']);
+					var to = new Date(event['to']);
+
+					if (event['multiDay']) {
+						dateString = from.toDateString() + ' - ' + to.toDateString();
+					}
+					else {
+						dateString = from.toDateString();
+					}
+
+					dateElement.textContent = dateString;
+					container.appendChild(dateElement);
+
+					//Description
+					if (event['description'] && event['description'].trim().length > 0) {
+						var description = document.createElement('p');
+						description.textContent = event['description'];
+						container.appendChild(description);
+					}
+
+					// Miscellaneous event details
+					container.appendChild(getEventDetails(event));
+
+					if (event.hasOwnProperty('special') && event['special'].trim().length > 0) {
+						container.innerHTML += '<p>' + event['special'] + '</p>';
+					}
+
+					parentContainer.appendChild(container);
+				});
+			}
+		}
+
+		function getEventDetails(event) {
+			var container = document.createElement('ul')
+			container.classList.add('contact');
+
+			// Address if applicable
+			if (event.hasOwnProperty('address')  && event['address'].trim().length > 0) {			
+				if (event.hasOwnProperty('location') && event['location'].trim().length > 0){
+					event['address'] = event['location'] + '<br/>' + event['address'];
+				}
+				container.innerHTML += '<li class="icon solid fa-home"> ' + event['address'] + '</li>';
+			}
+
+			if (!event['multiDay']) {
+				var timeString = (new Date(event['from']).toLocaleTimeString()) + ' - ' + (new Date(event['to']).toLocaleTimeString());
+				container.innerHTML += '<li class="icon solid fa-clock">' + timeString + '</li>';
+			}
+
+			if (event.hasOwnProperty('pickup')  && event['pickup'].trim().length > 0) {
+				container.innerHTML += '<li class="icon solid fa-location-arrow"> Pickup @ ' + event['pickup'] + '</li>';
+			}
+
+			if (event.hasOwnProperty('dress') && event['dress'].trim().length > 0) {
+				container.innerHTML += '<li class="icon solid fa-tshirt">' + event['dress'] + '</li>';
+			}
+
+			if (event.hasOwnProperty('link') && event['link'].trim().length > 0) {
+				container.innerHTML += '<li><a href="' + event['link'] +
+					'" target="_blank" class="button primary">Sign Up</a></li>'
+			}
+
+			return container;
+		}
+
+
+	</script>
+
+</body>
+
+</html>

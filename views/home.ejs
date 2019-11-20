@@ -32,6 +32,10 @@
 					<li><a href="/events">Events</a></li>
 					<li><a href="/resources">Resources</a></li>
 					<li><a href="/join">Join Us</a></li>
+					<% if (currentUser){ %>
+						<li><a href="/dashboard">Dashboard</a></li>
+						<li><a href="/logout">Logout</a></li>
+					<% } %>
 				</ul>
 				<a href="#" class="close">Close</a>
 			</div>

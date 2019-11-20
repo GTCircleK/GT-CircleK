@@ -4,71 +4,80 @@
 <head>
     <title><%= project.title %> | GT Circle K</title>
     <meta charset="utf-8" />
+    <% if (undefined !== project.images && project.images.length > 0){ %>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.css">
     <link rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/justifiedGallery/3.7.0/css/justifiedGallery.min.css">
-    <% include partials/head.ejs %>
+    <% } %>
+    <% include ../partials/head.ejs %>
 </head>
 
 <body class="is-preload">
 
     <div id="page-wrapper">
 
-        <% include partials/navbar.ejs %>
+        <% include ../partials/navbar.ejs %>
 
         <section id="wrapper">
             <header>
                 <div class="inner">
                     <h2><%= project.title %></h2>
                     <p><%= project.summary %></p>
+                    <% if (currentUser) { %>
+                    <form action="/projects/<%= project.id %>/edit" method="GET">
+                        <button class="ui green basic button">Edit Project <i class="fas fa-pencil-alt"></i></button>
+                    </form>
+                    <% } %>
                 </div>
             </header>
 
             <div class="wrapper">
                 <div class="inner">
 
-                    <% if (undefined !== project.who) { %>
+                    <% include ../partials/flashMessage.ejs %>
+
+                    <% if (undefined !== project.who && project.who.trim().length > 0) { %>
                     <h3 class="major">Who</h3>
                     <p><%= project.who %>​</p>
                     <% } %>
 
-                    <% if (undefined !== project.what) { %>
+                    <% if (undefined !== project.what && project.what.trim().length > 0) { %>
                     <h3 class="major">What</h3>
                     <p><%= project.what %>​</p>
                     <% } %>
-                    
+
 
                     <h3 class="major">Details</h3>
                     <ul class="contact">
 
-                        <% if (undefined !== project.address) { %>
+                        <% if (undefined !== project.address && project.address.trim().length > 0) { %>
                         <li class="icon solid fa-home">
-                            <% if (undefined !== project.location) { %>
+                            <% if (undefined !== project.location && project.location.trim().length > 0) { %>
                             <%= project.location %>​ <br>
                             <% } %>
                             <%= project.address %>
                         </li>
                         <% } %>
 
-                        <% if (undefined !== project.time) { %>
+                        <% if (undefined !== project.time && project.time.trim().length > 0) { %>
                         <li class="icon solid fa-clock"><%= project.time %></li>
                         <% } %>
 
-                        <% if (undefined !== project.pickup) { %>
+                        <% if (undefined !== project.pickup && project.pickup.trim().length > 0) { %>
                         <li class="icon solid fa-location-arrow"><%= project.pickup %>​ </li>
                         <% } %>
 
-                        <% if (undefined !== project.dress) { %>
+                        <% if (undefined !== project.dress && project.dress.trim().length > 0) { %>
                         <li class="icon solid fa-tshirt"><%= project.dress %>​ </li>
                         <% } %>
 
                     </ul>
 
-                    <% if (undefined !== project.extra){ %>
+                    <% if (undefined !== project.extra && project.extra.trim().length > 0){ %>
                     <p><%= project.extra %></p>
                     <% } %>
 
-                    <% if (undefined !== project.link){ %>
+                    <% if (undefined !== project.link && project.link.trim().length > 0){ %>
                     <p><a href="<%= project.link %>" target="_blank" class="button primary">Sign Up</a></p>
                     <p><b class="black-font">Note: You are signing up for the upcoming week only.</b></p>
                     <% } %>
@@ -98,7 +107,15 @@
                         <p><a href="/projects" class="button primary mg-3">See other projects</a></p>
                     </div>
 
+                    <% if (currentUser && currentUser.isAdmin) { %>
+                    <form action="/projects/<%=project.id %>?_method=DELETE" method='POST'
+                        style="display: inline-block">
+                        <button class="ui red basic button">Delete Project</button>
+                    </form>
+                    <% } %>
+
                 </div>
+
 
 
 
@@ -106,14 +123,14 @@
 
         </section>
 
-        <% include partials/footer.ejs %>
+        <% include ../partials/footer.ejs %>
 
     </div>
 
-    <% include partials/common-scripts.ejs %>
+    <% include ../partials/common-scripts.ejs %>
 
     <% if (undefined !== project.images && project.images.length > 0){ %>
-    <% include partials/gallery-view.ejs %>
+    <% include ../partials/gallery-view.ejs %>
     <% } %>
 
 </body>
