@@ -148,8 +148,11 @@
 			container.classList.add('contact');
 
 			// Address if applicable
-			if (event.hasOwnProperty('address')  && event['address'].trim().length > 0) {
-				container.innerHTML += '<li class="icon solid fa-home">' + event['address'] + '</li>';
+			if (event.hasOwnProperty('address')  && event['address'].trim().length > 0) {			
+				if (event.hasOwnProperty('location') && event['location'].trim().length > 0){
+					event['address'] = event['location'] + '<br/>' + event['address'];
+				}
+				container.innerHTML += '<li class="icon solid fa-home"> ' + event['address'] + '</li>';
 			}
 
 			if (!event['multiDay']) {

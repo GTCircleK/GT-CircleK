@@ -6,6 +6,7 @@ const eventSchema = new mongoose.Schema({
     'from': {type: String, required: true},
     'to': {type: String, required: true},
     'description': String,
+    'location': String,
     'address': String,
     'pickup': String,
     'dress': String,

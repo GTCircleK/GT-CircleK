@@ -8,7 +8,6 @@ router.get('/events', (req, res) => {
     res.render('events/basicEvents');
 });
 
-
 router.get('/events/create', middleware.isLoggedIn, (req, res) => {
     res.render('events/newEvent');
 });
@@ -25,6 +24,28 @@ router.get('/events/:id/edit', middleware.isLoggedIn, (req, res) => {
         }
         else {
             res.render('events/editEvent', { event: item });
+        }
+    });
+});
+
+router.put('/events/:id', middleware.isLoggedIn, (req, res) => {
+    var event = req.body.event;
+    for (var key in event) {
+        event[key] = event[key].trim();
+    }
+
+    Event.findByIdAndUpdate(req.params.id, event, (err, newEvent) => {
+        if (err) {
+            req.flash('error', err.message);
+            res.redirect('back');
+        }
+        else if (!newEvent){
+            req.flash('error', 'Could not find the event. Please try again later.');
+            res.redirect('back');
+        }
+        else {
+            req.flash('success', 'Sucessfully updated the event');
+            res.redirect('/events');
         }
     });
 });
@@ -49,27 +70,7 @@ router.post('/events', middleware.isLoggedIn, (req, res) => {
     });
 });
 
-router.put('events/:id', middleware.isLoggedIn, (req, res) => {
-    var event = req.body.event;
-    for (var key in event) {
-        event[key] = event[key].trim();
-    }
 
-    Event.findByIdAndUpdate(req.params.id, event, (err, newEvent) => {
-        if (err) {
-            req.flash('error', err.message);
-            res.redirect('back');
-        }
-        else if (!newEvent){
-            req.flash('error', 'Could not find the event. Please try again later.');
-            res.redirect('back');
-        }
-        else {
-            req.flash('Sucessfully updated the event');
-            res.redirect('/events');
-        }
-    });
-});
 
 router.delete('/events/:id', middleware.isAuthorized, (req, res) => {
     Event.findByIdAndDelete(req.params.id, (err) => {
@@ -88,7 +89,7 @@ router.delete('/events/:id', middleware.isAuthorized, (req, res) => {
 // ------------------ API ------------------------
 router.get('/api/upcomingEvents', (req, res) => {
     var currentDate = new Date().toISOString();
-    Event.find({ to: { $gte: currentDate } }, (err, events) => {
+    Event.find({ to: { $gte: currentDate } }).sort('from').exec((err, events) => {
         if (err) {
             res.status(500).send({
                 message: 'Error retrieving documents from database.\r\n' + err.message
