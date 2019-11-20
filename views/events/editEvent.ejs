@@ -1,0 +1,120 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <title>Edit Event | GT Circle K</title>
+    <meta charset="utf-8" />
+    <% include ../partials/head.ejs %>
+</head>
+
+<body class="is-preload">
+
+    <div id="page-wrapper">
+        <% include ../partials/navbar.ejs %>
+
+        <section id="wrapper">
+            <header>
+                <div class="inner">
+                    <h2>Edit Event</h2>
+                    <p>Change info about the event</p>
+                </div>
+            </header>
+
+            <div class="wrapper">
+                <div class="inner">
+
+                    <form action="/events" method="POST">
+                        <div class="fields">
+                            <div class="field">
+                                <label for="title">*Event Title</label>
+                                <input type="text" id="title" name="event[title]" placeholder="Eg: Trick or Treating"
+                                    value="<%= event.title %>" required />
+                            </div>
+
+                            <div class="field">
+                                <input type="checkbox" id="multiday" name="event[multiday]" value="true"
+                                    <% if (event.multiDay){ %> checked <%}%> >
+                                <label for="multiday">Multiday Event</label>
+                            </div>
+
+                            <div id="mutliday-option" class="field">
+                                <div class="field">
+                                    <label for="from">From</label>
+                                    <input type="<%= event.multiDay ? 'date' : 'datetime-local' %>" name="event[from]"
+                                    id="from" value="<%= event.from %>">
+                            </div>
+                            <div class="field">
+                                <label for="to">To</label>
+                                <input type="<%= event.multiDay ? 'date' : 'datetime-local' %>" name="event[to]"
+                                    id="to" value="<%= event.to %>">
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label for="description">Description</label>
+                            <textarea name="event[description]" id="description" rows="4"
+                                placeholder="Enter a small summary of the event"><%= event.description %></textarea>
+                        </div>
+                        <div class="field">
+                            <label for="address">Location</label>
+                            <input type="text" name="event[location]" id="address"
+                                placeholder="Eg: The Salvation Army Bellwood Boys and Girls Club"
+                                value="<%= event.location %>" />
+                        </div>
+                        <div class="field">
+                            <label for="address">*Address</label>
+                            <input type="text" name="event[address]" id="address"
+                                placeholder="Eg: 99 Lake Dow Rd, McDonough, GA 30252" required
+                                value="<%= event.address %>" />
+                        </div>
+                        <div class="field">
+                            <label for="pickup">Pickup Info</label>
+                            <input type="text" name="event[pickup]" id="pickup"
+                                placeholder="Enter details about pickup/carpool" value="<%= event.pickup %>" />
+                        </div>
+                        <div class="field">
+                            <label for="dress">Dress Code</label>
+                            <input type="text" name="event[dress]" id="dress"
+                                placeholder="Enter details about special dress code/attire for the event"
+                                value="<%= event.dress %>" />
+                        </div>
+                        <div class="field">
+                            <label for="signup">Signup link</label>
+                            <input type="text" name="event[link]" id="signup"
+                                placeholder="Enter the link for sign up form if applicable" value="<%= event.link %>" />
+                        </div>
+                        <div class="field">
+                            <label for="message">Special Notes</label>
+                            <textarea name="event[special]" id="message" rows="4"
+                                placeholder="Enter any special notes. If not sign up link provided, enter the details to sign up here"><%= event.special %></textarea>
+                        </div>
+                </div>
+                <ul class="actions">
+                    <li><input type="submit" value="Edit Event" /></li>
+                    <li><a href="javascript:history.back()">Go Back</a></li>
+                </ul>
+                </form>
+            </div>
+    </div>
+
+    </section>
+    <% include ../partials/footer.ejs %>
+
+    </div>
+
+    <% include ../partials/common-scripts.ejs %>
+
+    <script>
+        $('#multiday').on('click', function () {
+            if ($(this).prop('checked')) {
+                document.getElementById('from').type = "date";
+                document.getElementById('to').type = "date";
+            }
+            else {
+                document.getElementById('from').type = "datetime-local";
+                document.getElementById('to').type = "datetime-local";
+            }
+        });
+    </script>
+</body>
+
+</html>

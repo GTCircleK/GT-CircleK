@@ -1,0 +1,116 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <title>Edit Project | GT Circle K</title>
+    <meta charset="utf-8" />
+    <% include ../partials/head.ejs %>
+</head>
+
+<body class="is-preload">
+
+    <div id="page-wrapper">
+        <% include ../partials/navbar.ejs %>
+
+        <section id="wrapper">
+            <header>
+                <div class="inner">
+                    <h2>Edit Project</h2>
+                    <p>Update the project details</p>
+                </div>
+            </header>
+
+            <div class="wrapper">
+                <div class="inner">
+
+                    <% include ../partials/flashMessage.ejs %>
+
+                    <h3 class="major">Fill out the forms</h3>
+
+                    <form action="/projects/<%= project.id %>?_method=PUT" method="POST">
+                        <div class="fields">
+                            <div class="field">
+                                <label for="title">*Project Title</label>
+                                <input type="text" id="title" name="project[title]"
+                                    placeholder="Eg: Boys and Girls Club of America" required
+                                    value="<%= project.title %>" />
+                            </div>
+                            <div class="field">
+                                <label for="summary">*Summary</label>
+                                <input type="text" id="summary" name="project[summary]"
+                                    placeholder="Short description about the project" required
+                                    value="<%= project.summary %>" />
+                            </div>
+                            <div class="field">
+                                <label for="logo">*Logo</label>
+                                <input type="text" id="logo" name="project[logo]"
+                                    placeholder="Paste an image URL for the logo of the project" required
+                                    value="<%= project.logo %>" />
+                            </div>
+                            <div class="field">
+                                <label for="who">Who</label>
+                                <textarea name="project[who]" id="who" rows="4" placeholder="Who is the organizer"><%= project.who %></textarea>
+                            </div>
+                            <div class="field">
+                                <label for="what">What</label>
+                                <textarea name="project[what]" id="who" rows="4"
+                                    placeholder="What will the participants be doing?"><%= project.what %>
+                                </textarea>
+                            </div>
+                            <div class="field">
+                                <label for="location">Location</label>
+                                <input type="text" name="project[location]" id="location"
+                                    value="<%= project.location %>"
+                                    placeholder="Eg: The Salvation Army Bellwood Boys and Girls Club" />
+                            </div>
+                            <div class="field">
+                                <label for="address">*Address</label>
+                                <input type="text" name="project[address]" id="address" value="<%= project.address %>"
+                                    placeholder="Eg: 99 Lake Dow Rd, McDonough, GA 30252" required />
+                            </div>
+                            <div class="field">
+                                <label for="time">*Time</label>
+                                <input type="text" name="project[time]" id="time" value="<%= project.time %>"
+                                    placeholder="Eg: Fridays, 4:20 - 6:00 pm (Meet at 4:05 pm)" required />
+                            </div>
+                            <div class="field">
+                                <label for="pickup">Pickup Info</label>
+                                <input type="text" name="project[pickup]" id="pickup" value="<%= project.pickup %>"
+                                    placeholder="Enter details about pickup/carpool" />
+                            </div>
+                            <div class="field">
+                                <label for="dress">Dress Code</label>
+                                <input type="text" name="project[dress]" id="dress" value="<%= project.dress %>"
+                                    placeholder="Enter details about special dress code/attire for the event" />
+                            </div>
+                            <div class="field">
+                                <label for="link">Signup link</label>
+                                <input type="text" name="project[link]" id="link" value="<%= project.link %>"
+                                    placeholder="Enter the link for sign up form if applicable" />
+                            </div>
+                            <div class="field">
+                                <label for="extra">Special Notes</label>
+                                <textarea name="project[extra]" id="extra" rows="4"
+                                    placeholder="Enter any special notes. If not sign up link provided, enter the details to sign up here"><%= project.extra %>
+                                </textarea>
+                            </div>
+                        </div>
+                        <ul class="actions">
+                            <li><input type="submit" value="Update Project" /></li>
+                            <li><a href="javascript:history.back()">Go Back</a></li>
+                        </ul>
+                    </form>
+                </div>
+            </div>
+
+        </section>
+
+        <% include ../partials/footer.ejs %>
+
+    </div>
+
+    <% include ../partials/common-scripts.ejs %>
+
+</body>
+
+</html>

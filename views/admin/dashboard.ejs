@@ -1,0 +1,243 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <title>Dashboard | GT Circle K</title>
+    <meta charset="utf-8" />
+
+    <% include ../partials/head.ejs %>
+</head>
+
+<body class="is-preload">
+
+    <div id="page-wrapper">
+
+        <% include ../partials/navbar.ejs %>
+
+        <section id="wrapper">
+            <header>
+                <div class="inner">
+                    <h2>Admin Dashboard</h2>
+                    <p>Configure projects and events</p>
+                </div>
+            </header>
+
+            <div class="wrapper">
+                <div class="inner">
+
+                    <% include ../partials/flashMessage.ejs %>
+
+                    <!-- <section class="features">
+                        <article>
+                            <h1 class="major">Active Projects
+                                <a href="/projects/create">
+                                    <i class="fas fa-plus-circle"></i>
+                                </a>
+                            </h1>
+                            <ul id="projects">
+                                <div class="ui placeholder">
+                                    <div class="paragraph">
+                                        <div class="line"></div>
+                                        <div class="line"></div>
+                                        <div class="line"></div>
+                                        <div class="line"></div>
+                                        <div class="line"></div>
+                                    </div>
+                                </div>
+                            </ul>
+                        </article>
+
+                        <article>
+                            <h1 class="major">Upcoming Events
+                                <a href="/events/create">
+                                    <i class="fas fa-plus-circle"></i>
+                                </a>
+                            </h1>
+                            <ul id="events">
+                                <div class="ui placeholder">
+                                    <div class="paragraph">
+                                        <div class="line"></div>
+                                        <div class="line"></div>
+                                        <div class="line"></div>
+                                        <div class="line"></div>
+                                        <div class="line"></div>
+                                    </div>
+                                </div>
+                            </ul>
+                        </article>
+                    </section> -->
+
+                    <div class="ui secondary pointing menu">
+                        <a class="item active">
+                            Projects </a>
+                        <a class="item">
+                            Events
+                        </a>
+                        <a class="item">
+                            Sign Ups
+                        </a>
+                    </div>
+
+                    <div class="ui segment">
+                        <div id="project-contents">
+                            <h1 class="major">Active Projects
+                                <a href="/projects/create">
+                                    <i class="fas fa-plus-circle"></i>
+                                </a>
+                            </h1>
+                            <div class="ui fluid accordion" id="projects">
+                                <div class="ui placeholder">
+                                    <div class="paragraph">
+                                        <div class="line"></div>
+                                        <div class="line"></div>
+                                        <div class="line"></div>
+                                        <div class="line"></div>
+                                        <div class="line"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="event-contents">
+                            <h1 class="major">Upcoming Events
+                                <a href="/events/create">
+                                    <i class="fas fa-plus-circle"></i>
+                                </a>
+                            </h1>
+                            <ul id="events">
+                                <div class="ui placeholder">
+                                    <div class="paragraph">
+                                        <div class="line"></div>
+                                        <div class="line"></div>
+                                        <div class="line"></div>
+                                        <div class="line"></div>
+                                        <div class="line"></div>
+                                    </div>
+                                </div>
+                            </ul>
+                        </div>
+
+                        <div id="signup-contents">
+                            <h1 class="major">Signup for upcoming week</h1>
+                            <ul id="signup">
+                                <div class="ui placeholder">
+                                    <div class="paragraph">
+                                        <div class="line"></div>
+                                        <div class="line"></div>
+                                        <div class="line"></div>
+                                        <div class="line"></div>
+                                        <div class="line"></div>
+                                    </div>
+                                </div>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </section>
+
+        <div class="ui longer modal">
+            <div class="header">Header</div>
+            <div class="scrolling content">
+
+            </div>
+        </div>
+
+        <% include ../partials/footer.ejs %>
+
+    </div>
+
+    <% include ../partials/common-scripts.ejs %>
+    <script>
+
+        $('.ui.longer.modal')
+            .modal('show')
+            ;
+
+        $('.ui.accordion').accordion();
+
+        $('.ui.segment > div').hide();
+        $('.ui.segment > div').eq(0).show();
+
+        $('.ui.secondary.pointing.menu .item').on('click', function () {
+            $('.ui.secondary.pointing.menu .item').removeClass('active');
+            $(this).addClass('active');
+
+            $('.ui.segment > div').hide();
+            $('.ui.segment > div').eq($(this).index()).show();
+        });
+
+        $.get('api/projects', (data) => {
+            addProjectsToList(data);
+        });
+
+        $.get('api/upcomingEvents', (data) => {
+            addEventsToList(data);
+        });
+
+        function addProjectsToList(projects) {
+            var listContainer = document.querySelector('#projects');
+            listContainer.innerHTML = "";
+            listContainer.classList.add('styled');
+
+            projects.forEach(project => {
+                addAccordianItem(project, listContainer);
+            });
+        }
+
+        function addAccordianItem(project, parentContainer) {
+            var title = document.createElement('div');
+            title.classList.add('title');
+            title.textContent = project.title;
+
+            parentContainer.appendChild(title);
+            parentContainer.appendChild(getProjectContent(project));
+        }
+
+        function getProjectContent(project) {
+            var contents = document.createElement('div');
+            contents.classList.add('content');
+
+            var viewLink = document.createElement('a');
+            viewLink.href = '/projects/' + project._id;
+            viewLink.innerHTML = '&emsp;<i class="far fa-eye"></i> View Project <br>';
+
+            var editLink = document.createElement('a');
+            editLink.href = '/projects/' + project._id + '/edit';
+            editLink.innerHTML = '&emsp;<i class="fas fa-pencil-alt"></i> Edit Project';
+
+            contents.appendChild(viewLink);
+            contents.appendChild(editLink);
+            return contents;
+        }
+
+
+        function addEventsToList(events) {
+            var listContainer = document.querySelector('#events');
+            if (events.length === 0) {
+                listContainer.textContent = 'No upcoming events';
+            } else {
+                listContainer.innerHTML = "";
+                events.forEach(event => {
+                    var eventContainer = document.createElement('li');
+                    eventContainer.textContent = event.title;
+
+                    var editLink = document.createElement('a');
+                    editLink.href = '/events/' + event._id + '/edit';
+                    editLink.innerHTML = '&emsp;<i class="fas fa-pencil-alt"></i>';
+
+                    eventContainer.appendChild(editLink);
+                    listContainer.appendChild(eventContainer);
+                });
+            }
+        }
+
+
+
+    </script>
+
+</body>
+
+</html>

@@ -1,0 +1,73 @@
+<!DOCTYPE HTML>
+<!--
+	Solid State by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+
+<head>
+	<title>Login | GT Circle K</title>
+	<meta charset="utf-8" />
+	<% include ../partials/head.ejs %>
+
+</head>
+
+<body class="is-preload">
+
+	<div id="page-wrapper">
+
+		<% include ../partials/navbar.ejs %>
+
+		<section id="wrapper">
+			<header>
+				<div class="inner">
+					<h2>Login</h2>
+					<p>Add, Update and Delete Projects and Events</p>
+				</div>
+			</header>
+
+			<div class="wrapper">
+				<div class="inner">
+
+					<% include ../partials/flashMessage.ejs %>
+
+
+					<form action="/login" method="POST">
+						<div class="fields">
+							<div class="field">
+								<label for="username">Username</label>
+								<input type="text" id="username" name="username" placeholder="Enter username here"
+									required />
+							</div>
+
+							<div class="field">
+								<label for="password">Password</label>
+								<input type="password" name="password" id="password" placeholder="Enter password here"
+									required />
+							</div>
+						</div>
+						<ul class="actions">
+							<li><input type="submit" value="Login" /></li>
+						</ul>
+					</form>
+					<p class="quote">This is exclusively for club officers. <br>
+						Contact us <a href="#footer" class="dotted-line">(see below)</a> if you have any questions or
+						suggestions. <br>
+						Contact Ishan Baniya (<a href="mailto:ibaniya3@gatech.edu"
+							class="dotted-line">ibaniya3@gatech.edu</a>) if you need a login credential.</p>
+
+				</div>
+			</div>
+
+		</section>
+
+		<% include ../partials/footer.ejs %>
+
+	</div>
+
+	<% include ../partials/common-scripts.ejs %>
+
+</body>
+
+</html>
