@@ -105,6 +105,17 @@
 						editLink.target = '_blank';
 						editLink.innerHTML = '&emsp;<i class="fas fa-pencil-alt"></i>';
 						title.appendChild(editLink);
+
+						<% if (currentUser.isAdmin){ %>
+							var deleteLink = document.createElement('form');
+							deleteLink.method = "POST";
+							deleteLink.action = "/events/" + event._id + "/?_method=DELETE";
+							deleteLink.style.color = 'white';
+							deleteLink.style.display = 'inline';
+							deleteLink.innerHTML = '&emsp;<button style="background-color: red;"><i class="fas fa-trash-alt"></i></button>';
+							title.appendChild(deleteLink);
+						<% } %>
+
 					<% } %>					
 					container.appendChild(title);
 

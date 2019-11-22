@@ -11,7 +11,8 @@ const eventSchema = new mongoose.Schema({
     'pickup': String,
     'dress': String,
     'link': String,
-    'special': String
+    'special': String,
+    'google_event_id': String
 });
 
 module.exports = mongoose.model('Event', eventSchema);

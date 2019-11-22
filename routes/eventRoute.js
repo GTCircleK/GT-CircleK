@@ -1,6 +1,8 @@
 let express = require('express'),
     Event = require('../models/event'),
-    middleware = require('../middleware');
+    middleware = require('../middleware'),
+    googleCalendarAPI = require('../googleAPI/calendar');
+
 let router = express.Router();
 let eventData = require('../events');
 
@@ -34,18 +36,27 @@ router.put('/events/:id', middleware.isLoggedIn, (req, res) => {
         event[key] = event[key].trim();
     }
 
-    Event.findByIdAndUpdate(req.params.id, event, (err, newEvent) => {
+    Event.findByIdAndUpdate(req.params.id, event, {new: true}, (err, newEvent) => {
         if (err) {
             req.flash('error', err.message);
             res.redirect('back');
         }
-        else if (!newEvent){
+        else if (!newEvent) {
             req.flash('error', 'Could not find the event. Please try again later.');
             res.redirect('back');
         }
         else {
             req.flash('success', 'Sucessfully updated the event');
-            res.redirect('/events');
+            try{
+                googleCalendarAPI.updateEvent(newEvent);
+            }
+            catch(e){
+                req.flash('error', 'Failed to update event in Google Calendar');
+            }
+            finally{
+                res.redirect('/events');
+            }
+            
         }
     });
 });
@@ -57,30 +68,51 @@ router.post('/events', middleware.isLoggedIn, (req, res) => {
     } else {
         newEvent.multiday = false;
     }
-    
+
     Event.create(newEvent, (err, newEvent) => {
-        if (err){
-            req.flash('error', err.message);
-            res.redirect('back');
-        }
-        else{
-            req.flash('success','Successfully created the event')
-            res.redirect('/events');
-        }
-    });
-});
-
-
-
-router.delete('/events/:id', middleware.isAuthorized, (req, res) => {
-    Event.findByIdAndDelete(req.params.id, (err) => {
         if (err) {
             req.flash('error', err.message);
             res.redirect('back');
         }
         else {
-            req.flash('success', 'Successfully deleted the event');
-            res.redirect('/events');
+            req.flash('success', 'Successfully created the event');
+            try {
+                googleCalendarAPI.createEvent(newEvent);
+            }
+            catch (e) {
+                req.flash('error', 'Failed to add event to Google Calendar');
+            }
+            finally {
+                res.redirect('/events');
+            }
+        }
+    });
+
+
+});
+
+
+router.delete('/events/:id', middleware.isAuthorized, (req, res) => {
+    // Instead of deleting directly, first retrieve Google Event Id for the event to delete from Google Calendar
+    // Then delete the retrieved event.
+    Event.findById(req.params.id, (err, item) => {
+        if (err){
+            res.flash('error', err.message);
+            res.redirect('back');
+        } else if (!item){
+            res.status(404).send('No event found for the given id');
+        } else {
+            try{                
+                googleCalendarAPI.deleteEvent(item);
+            } 
+            catch(e){
+                req.flash('error', 'Failed to delete event from Google calendar');
+            }
+            finally{
+                item.remove();
+                req.flash('success', 'Successfully deleted the event');
+                res.redirect('/events');
+            }            
         }
     });
 });
