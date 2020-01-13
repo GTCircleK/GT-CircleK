@@ -6,3 +6,5 @@ generic.html
 /flickr-scripts
 .env
 /semantic
+credentials.json
+token.json
