@@ -1,7 +1,8 @@
 let express = require('express'),
     Event = require('../models/event'),
     middleware = require('../middleware'),
-    googleCalendarAPI = require('../googleAPI/calendar');
+    googleCalendarAPI = require('../googleAPI/calendar'),
+    moment = require('moment');
 
 let router = express.Router();
 let eventData = require('../events');
@@ -25,7 +26,12 @@ router.get('/events/:id/edit', middleware.isLoggedIn, (req, res) => {
             res.redirect('back');
         }
         else {
-            res.render('events/editEvent', { event: item });
+            let from = moment(item['from']).format("YYYY-MM-DDTHH:mm");
+            let to = moment(item['to']).format("YYYY-MM-DDTHH:mm");
+            
+            // For some reason, it was not overriding the values in the item object,
+            // So passed from and to manually
+            res.render('events/editEvent', { event: item, from: from, to: to });
         }
     });
 });
@@ -69,7 +75,11 @@ router.post('/events', middleware.isLoggedIn, (req, res) => {
         newEvent.multiday = false;
     }
 
-    Event.create(newEvent, (err, newEvent) => {
+    newEvent['from'] = new Date(newEvent.from);
+    newEvent['to'] = new Date(newEvent.to);
+    console.log(newEvent)
+
+    Event.create(newEvent, (err, doc) => {
         if (err) {
             req.flash('error', err.message);
             res.redirect('back');
@@ -77,7 +87,7 @@ router.post('/events', middleware.isLoggedIn, (req, res) => {
         else {
             req.flash('success', 'Successfully created the event');
             try {
-                googleCalendarAPI.createEvent(newEvent);
+                googleCalendarAPI.createEvent(doc);
             }
             catch (e) {
                 req.flash('error', 'Failed to add event to Google Calendar');
