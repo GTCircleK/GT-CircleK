@@ -153,7 +153,7 @@
 			}
 		}
 
-		function formatMultidayDate(date){
+		function formatMultidayDate(date) {
 			let day = date.toDateString().split(" ")[0];
 			let time = date.toLocaleTimeString();
 			console.log(`${day} ${time}`);
@@ -172,20 +172,18 @@
 				container.innerHTML += '<li class="icon solid fa-home"> ' + event['address'] + '</li>';
 			}
 
-			if (!event['multiDay']) {
-				let from = new Date(event['from']);
-				let to = new Date(event['to']);
+			let from = new Date(event['from']);
+			let to = new Date(event['to']);
 
-				// Different days
-				let timeString = "";
-				if (from.toDateString() !== to.toDateString()) {
-					timeString = formatMultidayDate(from) + " - " + formatMultidayDate(to);					
-				} else {
-					timeString += from.toLocaleTimeString() + ' to ' + to.toLocaleTimeString();
-				}
-				
-				container.innerHTML += '<li class="icon solid fa-clock">' + timeString + '</li>';
+			// Different days
+			let timeString = "";
+			if (from.toDateString() !== to.toDateString()) {
+				timeString = formatMultidayDate(from) + " - " + formatMultidayDate(to);
+			} else {
+				timeString += from.toLocaleTimeString() + ' to ' + to.toLocaleTimeString();
 			}
+
+			container.innerHTML += '<li class="icon solid fa-clock">' + timeString + '</li>';
 
 			if (event.hasOwnProperty('pickup') && event['pickup'].trim().length > 0) {
 				container.innerHTML += '<li class="icon solid fa-location-arrow"> Pickup @ ' + event['pickup'] + '</li>';
