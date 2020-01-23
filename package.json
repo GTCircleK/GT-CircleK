@@ -29,6 +29,8 @@
     "googleapis": "^45.0.0",
     "gulp": "^4.0.2",
     "method-override": "^3.0.0",
+    "moment": "^2.24.0",
+    "moment-timezone": "^0.5.27",
     "mongo": "^0.1.0",
     "mongoose": "^5.7.11",
     "nodemon": "^1.19.4",

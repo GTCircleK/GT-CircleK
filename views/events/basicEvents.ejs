@@ -73,8 +73,9 @@
 	<% include ../partials/common-scripts.ejs %>
 
 	<script>
+		let apiUrl = `/api/upcomingEvents?searchDate=${(new Date()).toJSON()}`;
 
-		$.get('/api/upcomingEvents', function (data) {
+		$.get(apiUrl, function (data) {
 			createUpcomingEvents(data);
 		});
 
@@ -99,14 +100,14 @@
 					var title = document.createElement('h3');
 					title.innerHTML = event['title'];
 
-					<% if (currentUser){ %>
+					<% if (currentUser) { %>
 						var editLink = document.createElement('a');
 						editLink.href = '/events/' + event._id + '/edit';
 						editLink.target = '_blank';
 						editLink.innerHTML = '&emsp;<i class="fas fa-pencil-alt"></i>';
 						title.appendChild(editLink);
 
-						<% if (currentUser.isAdmin){ %>
+						<% if (currentUser.isAdmin) { %>
 							var deleteLink = document.createElement('form');
 							deleteLink.method = "POST";
 							deleteLink.action = "/events/" + event._id + "/?_method=DELETE";
@@ -116,8 +117,8 @@
 							title.appendChild(deleteLink);
 						<% } %>
 
-					<% } %>					
-					container.appendChild(title);
+					<% } %>
+						container.appendChild(title);
 
 					//Date
 					var dateElement = document.createElement('p');
@@ -125,11 +126,9 @@
 					var from = new Date(event['from']);
 					var to = new Date(event['to']);
 
-					if (event['multiDay']) {
-						dateString = from.toDateString() + ' - ' + to.toDateString();
-					}
-					else {
-						dateString = from.toDateString();
+					dateString = from.toDateString();
+					if (from.toDateString() !== to.toDateString()) {
+						dateString += ' to ' + to.toDateString();
 					}
 
 					dateElement.textContent = dateString;
@@ -154,24 +153,39 @@
 			}
 		}
 
+		function formatMultidayDate(date) {
+			let day = date.toDateString().split(" ")[0];
+			let time = date.toLocaleTimeString();
+			console.log(`${day} ${time}`);
+			return `${day} ${time}`;
+		}
+
 		function getEventDetails(event) {
 			var container = document.createElement('ul')
 			container.classList.add('contact');
 
 			// Address if applicable
-			if (event.hasOwnProperty('address')  && event['address'].trim().length > 0) {			
-				if (event.hasOwnProperty('location') && event['location'].trim().length > 0){
+			if (event.hasOwnProperty('address') && event['address'].trim().length > 0) {
+				if (event.hasOwnProperty('location') && event['location'].trim().length > 0) {
 					event['address'] = event['location'] + '<br/>' + event['address'];
 				}
 				container.innerHTML += '<li class="icon solid fa-home"> ' + event['address'] + '</li>';
 			}
 
-			if (!event['multiDay']) {
-				var timeString = (new Date(event['from']).toLocaleTimeString()) + ' - ' + (new Date(event['to']).toLocaleTimeString());
-				container.innerHTML += '<li class="icon solid fa-clock">' + timeString + '</li>';
+			let from = new Date(event['from']);
+			let to = new Date(event['to']);
+
+			// Different days
+			let timeString = "";
+			if (from.toDateString() !== to.toDateString()) {
+				timeString = formatMultidayDate(from) + " - " + formatMultidayDate(to);
+			} else {
+				timeString += from.toLocaleTimeString() + ' to ' + to.toLocaleTimeString();
 			}
 
-			if (event.hasOwnProperty('pickup')  && event['pickup'].trim().length > 0) {
+			container.innerHTML += '<li class="icon solid fa-clock">' + timeString + '</li>';
+
+			if (event.hasOwnProperty('pickup') && event['pickup'].trim().length > 0) {
 				container.innerHTML += '<li class="icon solid fa-location-arrow"> Pickup @ ' + event['pickup'] + '</li>';
 			}
 

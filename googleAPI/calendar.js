@@ -184,7 +184,7 @@ function deleteEvent(deleteEvent) {
       if (err) {
         console.log(err);
       } else {
-        console.log('Successfully delete the event: %s', deleteEvent.title);
+        console.log('Successfully deleted the event: %s', deleteEvent.title);
       }
     });
   });

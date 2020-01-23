@@ -1,7 +1,8 @@
 let express = require('express'),
     Event = require('../models/event'),
     middleware = require('../middleware'),
-    googleCalendarAPI = require('../googleAPI/calendar');
+    googleCalendarAPI = require('../googleAPI/calendar'),
+    moment = require('moment');
 
 let router = express.Router();
 let eventData = require('../events');
@@ -31,12 +32,13 @@ router.get('/events/:id/edit', middleware.isLoggedIn, (req, res) => {
 });
 
 router.put('/events/:id', middleware.isLoggedIn, (req, res) => {
+
     var event = req.body.event;
     for (var key in event) {
         event[key] = event[key].trim();
     }
 
-    Event.findByIdAndUpdate(req.params.id, event, {new: true}, (err, newEvent) => {
+    Event.findByIdAndUpdate(req.params.id, event, { new: true }, (err, newEvent) => {
         if (err) {
             req.flash('error', err.message);
             res.redirect('back');
@@ -47,29 +49,26 @@ router.put('/events/:id', middleware.isLoggedIn, (req, res) => {
         }
         else {
             req.flash('success', 'Sucessfully updated the event');
-            try{
+            try {
                 googleCalendarAPI.updateEvent(newEvent);
             }
-            catch(e){
+            catch (e) {
                 req.flash('error', 'Failed to update event in Google Calendar');
             }
-            finally{
+            finally {
                 res.redirect('/events');
             }
-            
         }
     });
 });
 
 router.post('/events', middleware.isLoggedIn, (req, res) => {
-    let newEvent = req.body.event;
-    if (newEvent.multiday) {
-        newEvent.multiday = true;
-    } else {
-        newEvent.multiday = false;
+    var event = req.body.event;
+    for (var key in event) {
+        event[key] = event[key].trim();
     }
 
-    Event.create(newEvent, (err, newEvent) => {
+    Event.create(event, (err, doc) => {
         if (err) {
             req.flash('error', err.message);
             res.redirect('back');
@@ -77,7 +76,7 @@ router.post('/events', middleware.isLoggedIn, (req, res) => {
         else {
             req.flash('success', 'Successfully created the event');
             try {
-                googleCalendarAPI.createEvent(newEvent);
+                googleCalendarAPI.createEvent(doc);
             }
             catch (e) {
                 req.flash('error', 'Failed to add event to Google Calendar');
@@ -88,7 +87,6 @@ router.post('/events', middleware.isLoggedIn, (req, res) => {
         }
     });
 
-
 });
 
 
@@ -96,23 +94,23 @@ router.delete('/events/:id', middleware.isAuthorized, (req, res) => {
     // Instead of deleting directly, first retrieve Google Event Id for the event to delete from Google Calendar
     // Then delete the retrieved event.
     Event.findById(req.params.id, (err, item) => {
-        if (err){
+        if (err) {
             res.flash('error', err.message);
             res.redirect('back');
-        } else if (!item){
+        } else if (!item) {
             res.status(404).send('No event found for the given id');
         } else {
-            try{                
+            try {
                 googleCalendarAPI.deleteEvent(item);
-            } 
-            catch(e){
+            }
+            catch (e) {
                 req.flash('error', 'Failed to delete event from Google calendar');
             }
-            finally{
+            finally {
                 item.remove();
                 req.flash('success', 'Successfully deleted the event');
                 res.redirect('/events');
-            }            
+            }
         }
     });
 });
@@ -120,8 +118,15 @@ router.delete('/events/:id', middleware.isAuthorized, (req, res) => {
 
 // ------------------ API ------------------------
 router.get('/api/upcomingEvents', (req, res) => {
-    var currentDate = new Date().toISOString();
-    Event.find({ to: { $gte: currentDate } }).sort('from').exec((err, events) => {
+    var searchDate = null;
+    try {
+        searchDate = new Date(req.query.searchDate);
+    } catch (e) {
+        res.status(400).send('Not a valid date');
+        return;
+    }
+
+    Event.find({ to: { $gte: searchDate } }).sort('from').exec((err, events) => {
         if (err) {
             res.status(500).send({
                 message: 'Error retrieving documents from database.\r\n' + err.message
@@ -131,6 +136,8 @@ router.get('/api/upcomingEvents', (req, res) => {
             res.send(events);
         }
     });
+
+
 });
 
 router.get('/api/events', (req, res) => {

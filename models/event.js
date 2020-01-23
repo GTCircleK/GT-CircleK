@@ -3,8 +3,8 @@ const mongoose = require('mongoose');
 const eventSchema = new mongoose.Schema({
     'title': {type: String, required: true},
     'multiDay': Boolean,
-    'from': {type: String, required: true},
-    'to': {type: String, required: true},
+    'from': {type: Date, required: true},
+    'to': {type: Date, required: true},
     'description': String,
     'location': String,
     'address': String,

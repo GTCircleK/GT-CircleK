@@ -129,7 +129,8 @@
             addProjectsToList(data);
         });
 
-        $.get('api/upcomingEvents', (data) => {
+        let eventAPIUrl = `/api/upcomingEvents?searchDate=${(new Date()).toJSON()}`;
+        $.get(eventAPIUrl, (data) => {
             addEventsToList(data);
         });
 
