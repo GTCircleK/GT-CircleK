@@ -26,26 +26,26 @@
 
                     <h3 class="major">Fill out the forms</h3>
 
-                    <form action="/events" method="POST">
+                    <form action="/events" method="POST" id="event_form">
                         <div class="fields">
                             <div class="field">
                                 <label for="title">*Event Title</label>
                                 <input type="text" id="title" name="event[title]" placeholder="Eg: Trick or Treating"
                                     required />
                             </div>
-                            <div class="field">
+                            <!-- <div class="field">
                                 <input type="checkbox" id="multiday" name="event[multiday]" value="true">
                                 <label for="multiday">Multiday Event</label>
-                            </div>
+                            </div> -->
 
                             <div id="mutliday-option" class="field">
                                 <div class="field">
                                     <label for="from">From</label>
-                                    <input type="datetime-local" name="event[from]" id="from">
+                                    <input type="datetime-local" name="from" id="from">
                                 </div>
                                 <div class="field">
                                     <label for="to">To</label>
-                                    <input type="datetime-local" name="event[to]" id="to">
+                                    <input type="datetime-local" name="to" id="to">
                                 </div>
                             </div>
                             <div class="field">
@@ -54,8 +54,8 @@
                                     placeholder="Enter a small summary of the event"></textarea>
                             </div>
                             <div class="field">
-                                <label for="address">Location</label>
-                                <input type="text" name="event[location]" id="address"
+                                <label for="location">Location</label>
+                                <input type="text" name="event[location]" id="location"
                                     placeholder="Eg: The Salvation Army Bellwood Boys and Girls Club" />
                             </div>
                             <div class="field">
@@ -98,18 +98,7 @@
     </div>
 
     <% include ../partials/common-scripts.ejs %>
-    <script>
-        $('#multiday').on('click', function () {
-            if ($(this).prop('checked')) {
-                document.getElementById('from').type="date";
-                document.getElementById('to').type="date";
-            }
-            else {
-                document.getElementById('from').type="datetime-local";
-                document.getElementById('to').type="datetime-local";
-            }
-        });
-    </script>
+    <script src="/assets/js/eventForm.js"></script>
 </body>
 
 </html>

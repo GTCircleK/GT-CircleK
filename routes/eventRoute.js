@@ -26,23 +26,21 @@ router.get('/events/:id/edit', middleware.isLoggedIn, (req, res) => {
             res.redirect('back');
         }
         else {
-            let from = moment(item['from']).format("YYYY-MM-DDTHH:mm");
-            let to = moment(item['to']).format("YYYY-MM-DDTHH:mm");
-            
-            // For some reason, it was not overriding the values in the item object,
-            // So passed from and to manually
-            res.render('events/editEvent', { event: item, from: from, to: to });
+            res.render('events/editEvent', { event: item });
         }
     });
 });
 
 router.put('/events/:id', middleware.isLoggedIn, (req, res) => {
+    
     var event = req.body.event;
     for (var key in event) {
         event[key] = event[key].trim();
     }
 
-    Event.findByIdAndUpdate(req.params.id, event, {new: true}, (err, newEvent) => {
+    console.log(event);
+
+    Event.findByIdAndUpdate(req.params.id, event, { new: true }, (err, newEvent) => {
         if (err) {
             req.flash('error', err.message);
             res.redirect('back');
@@ -53,33 +51,26 @@ router.put('/events/:id', middleware.isLoggedIn, (req, res) => {
         }
         else {
             req.flash('success', 'Sucessfully updated the event');
-            try{
-                googleCalendarAPI.updateEvent(newEvent);
+            try {
+                // googleCalendarAPI.updateEvent(newEvent);
             }
-            catch(e){
+            catch (e) {
                 req.flash('error', 'Failed to update event in Google Calendar');
             }
-            finally{
+            finally {
                 res.redirect('/events');
             }
-            
         }
     });
 });
 
 router.post('/events', middleware.isLoggedIn, (req, res) => {
-    let newEvent = req.body.event;
-    if (newEvent.multiday) {
-        newEvent.multiday = true;
-    } else {
-        newEvent.multiday = false;
+    var event = req.body.event;
+    for (var key in event) {
+        event[key] = event[key].trim();
     }
 
-    newEvent['from'] = new Date(newEvent.from);
-    newEvent['to'] = new Date(newEvent.to);
-    console.log(newEvent)
-
-    Event.create(newEvent, (err, doc) => {
+    Event.create(event, (err, doc) => {
         if (err) {
             req.flash('error', err.message);
             res.redirect('back');
@@ -87,7 +78,7 @@ router.post('/events', middleware.isLoggedIn, (req, res) => {
         else {
             req.flash('success', 'Successfully created the event');
             try {
-                googleCalendarAPI.createEvent(doc);
+                // googleCalendarAPI.createEvent(doc);
             }
             catch (e) {
                 req.flash('error', 'Failed to add event to Google Calendar');
@@ -98,7 +89,6 @@ router.post('/events', middleware.isLoggedIn, (req, res) => {
         }
     });
 
-
 });
 
 
@@ -106,23 +96,23 @@ router.delete('/events/:id', middleware.isAuthorized, (req, res) => {
     // Instead of deleting directly, first retrieve Google Event Id for the event to delete from Google Calendar
     // Then delete the retrieved event.
     Event.findById(req.params.id, (err, item) => {
-        if (err){
+        if (err) {
             res.flash('error', err.message);
             res.redirect('back');
-        } else if (!item){
+        } else if (!item) {
             res.status(404).send('No event found for the given id');
         } else {
-            try{                
-                googleCalendarAPI.deleteEvent(item);
-            } 
-            catch(e){
+            try {
+                // googleCalendarAPI.deleteEvent(item);
+            }
+            catch (e) {
                 req.flash('error', 'Failed to delete event from Google calendar');
             }
-            finally{
+            finally {
                 item.remove();
                 req.flash('success', 'Successfully deleted the event');
                 res.redirect('/events');
-            }            
+            }
         }
     });
 });
@@ -172,5 +162,45 @@ router.get('/api/events/:id', (req, res) => {
     });
 });
 
+/*
+    When deployed under the standard environment in GCP,
+    the code parses the date as in UTC, even if the user is in EST.
+    
+    First get the timezone offset to check where the server is running.
+    Convert the date to have the equivalent UTC date value.
+    Then offset the time to match the EST.
+*/
+function fixDateForTimezone(time) {
+    let utc_time = new Date(time);
+
+    let custom_timezone_offset = Number.parseInt(process.env.TIMEZONE_OFFSET);
+
+    // First check where the current timezone is 
+    let currentOffset = utc_time.getTimezoneOffset() / 60;
+
+    console.log(`Custom offset - ${custom_timezone_offset}`);
+    console.log(`Current offset - ${currentOffset}`);
+    
+    if (currentOffset == custom_timezone_offset) {
+        // The server location is in EST. No modification required.
+        return utc_time.toISOString();
+
+    } else if (currentOffset == 0) {
+        // The server location is in UTC
+        utc_time.setHours(utc_time.getHours() + timezone_offset);
+
+    } else {
+        // The server location is not in UTC or EST.
+        // First convert the time in UTC
+        utc_time.setHours
+        utc_time.setTime(utc_time.getTime() + currentOffset * 60 * 1000);        
+
+        // Offset from UTC to Eastern Time
+        utc_time.setTime(utc_time.getTime() + custom_timezone_offset * 60 * 1000);
+    }
+    
+    console.log(`Formatted Date - ${utc_time.too}`)
+    return utc_time.toISOString();
+}
 
 module.exports = router;
