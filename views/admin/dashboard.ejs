@@ -152,12 +152,8 @@
     <% include ../partials/common-scripts.ejs %>
     <script>
 
-        $('.ui.longer.modal')
-            .modal('show')
-            ;
-
+        $('.ui.longer.modal').modal('show');
         $('.ui.accordion').accordion();
-
         $('.ui.segment > div').hide();
         $('.ui.segment > div').eq(0).show();
 
@@ -173,7 +169,8 @@
             addProjectsToList(data);
         });
 
-        $.get('api/upcomingEvents', (data) => {
+        let eventAPIUrl = `/api/upcomingEvents?searchDate=${(new Date()).toJSON()}`;
+        $.get(eventAPIUrl, (data) => {
             addEventsToList(data);
         });
 

@@ -73,8 +73,9 @@
 	<% include ../partials/common-scripts.ejs %>
 
 	<script>
+		let apiUrl = `/api/upcomingEvents?searchDate=${(new Date()).toJSON()}`;
 
-		$.get('/api/upcomingEvents', function (data) {
+		$.get(apiUrl, function (data) {
 			createUpcomingEvents(data);
 		});
 
