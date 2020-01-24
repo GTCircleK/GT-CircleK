@@ -17,8 +17,9 @@
 		<section id="wrapper">
 			<header>
 				<div class="inner">
-					<h2>Projects</h2>
-					<p>See all of our service projects</p>
+					<h2 class="wow fadeInLeft" data-wow-duration="2s">Projects</h2>
+					<p class="wow fadeInLeft" data-wow-duration="1s" data-wow-delay="1s">See all of our service projects
+					</p>
 				</div>
 			</header>
 
@@ -26,27 +27,29 @@
 				<div class="inner">
 
 					<% include ../partials/flashMessage.ejs %>
+					<div class="wow fadeInUp" data-wow-duration="1s" data-wow-delay=".5s">
+						<p>Please join our <a href="https://groupme.com/join_group/49705520/fLu3rQT3" target="_blank"
+								class="dotted-line">Group Me</a> chat for more details and updates. <br>
+							This will allow us to make travel arrangements and communicate easily. <br>
+						</p>
 
-					<p>Please join our <a href="https://groupme.com/join_group/49705520/fLu3rQT3" target="_blank"
-							class="dotted-line">Group Me</a> chat for more details and updates. <br>
-						This will allow us to make travel arrangements and communicate easily. <br>
-					</p>
-
-					<p>
-						<b class="black-font">Note: You are signing up for the upcoming week only. You must sign up
-							every week if you are attending. <br>
-							If you signed up but can no longer go, please email Izah Tahir: <a
-								href="mailto:itahir3@gatech.edu" target="_blank"
-								class="dotted-line">itahir3@gatech.edu</a>
-						</b>
-					</p>
+						<p>
+							<b class="black-font">Note: You are signing up for the upcoming week only. You must sign up
+								every week if you are attending. <br>
+								If you signed up but can no longer go, please email Izah Tahir: <a
+									href="mailto:itahir3@gatech.edu" target="_blank"
+									class="dotted-line">itahir3@gatech.edu</a>
+							</b>
+						</p>
+					</div>
 
 
-					<h3 class="major">Active Projects</h3>
+
+					<h3 class="major wow fadeInUp">Active Projects</h3>
 					<section class="features">
 
 						<% projects.forEach(project => { %>
-						<article>
+						<article class="wow fadeInUp" data-wow-duration="1.5s">
 							<a href="/projects/<%= project.id %>" class="image"><img src="<%= project.logo %>"
 									alt="" /></a>
 							<h3 class="major"><%= project.title %></h3>

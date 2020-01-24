@@ -21,8 +21,8 @@
         <section id="wrapper">
             <header>
                 <div class="inner">
-                    <h2><%= project.title %></h2>
-                    <p><%= project.summary %></p>
+                    <h2 class="wow fadeInLeft" data-wow-duration="2s"><%= project.title %></h2>
+                    <p class="wow fadeInLeft" data-wow-duration="1s" data-wow-delay="0.5s"><%= project.summary %></p>
                     <% if (currentUser) { %>
                     <form action="/projects/<%= project.id %>/edit" method="GET">
                         <button class="ui green basic button">Edit Project <i class="fas fa-pencil-alt"></i></button>
@@ -37,73 +37,84 @@
                     <% include ../partials/flashMessage.ejs %>
 
                     <% if (undefined !== project.who && project.who.trim().length > 0) { %>
-                    <h3 class="major">Who</h3>
-                    <p><%= project.who %>​</p>
+                    <div class="wow fadeInUp" data-wow-duration="2s">
+                        <h3 class="major">Who</h3>
+                        <p><%= project.who %>​</p>
+                        <br>
+                    </div>
                     <% } %>
 
                     <% if (undefined !== project.what && project.what.trim().length > 0) { %>
-                    <h3 class="major">What</h3>
-                    <p><%= project.what %>​</p>
+                    <div class="wow fadeInUp" data-wow-duration="2s">
+                        <h3 class="major">What</h3>
+                        <p><%= project.what %>​</p>
+                        <br>
+                    </div>
                     <% } %>
 
 
-                    <h3 class="major">Details</h3>
-                    <ul class="contact">
+                    <div class="wow fadeInUp" data-wow-duration="2s">
+                        <h3 class="major">Details</h3>
+                        <ul class="contact">
 
-                        <% if (undefined !== project.address && project.address.trim().length > 0) { %>
-                        <li class="icon solid fa-home">
-                            <% if (undefined !== project.location && project.location.trim().length > 0) { %>
-                            <%= project.location %>​ <br>
+                            <% if (undefined !== project.address && project.address.trim().length > 0) { %>
+                            <li class="icon solid fa-home wow fadeInUp">
+                                <% if (undefined !== project.location && project.location.trim().length > 0) { %>
+                                <%= project.location %>​ <br>
+                                <% } %>
+                                <%= project.address %>
+                            </li>
                             <% } %>
-                            <%= project.address %>
-                        </li>
-                        <% } %>
 
-                        <% if (undefined !== project.time && project.time.trim().length > 0) { %>
-                        <li class="icon solid fa-clock"><%= project.time %></li>
-                        <% } %>
+                            <% if (undefined !== project.time && project.time.trim().length > 0) { %>
+                            <li class="icon solid fa-clock wow fadeInUp"><%= project.time %></li>
+                            <% } %>
 
-                        <% if (undefined !== project.pickup && project.pickup.trim().length > 0) { %>
-                        <li class="icon solid fa-location-arrow"><%= project.pickup %>​ </li>
-                        <% } %>
+                            <% if (undefined !== project.pickup && project.pickup.trim().length > 0) { %>
+                            <li class="icon solid fa-location-arrow wow fadeInUp"><%= project.pickup %>​ </li>
+                            <% } %>
 
-                        <% if (undefined !== project.dress && project.dress.trim().length > 0) { %>
-                        <li class="icon solid fa-tshirt"><%= project.dress %>​ </li>
-                        <% } %>
+                            <% if (undefined !== project.dress && project.dress.trim().length > 0) { %>
+                            <li class="icon solid fa-tshirt wow fadeInUp"><%= project.dress %>​ </li>
+                            <% } %>
 
-                    </ul>
+                        </ul>
+                    </div>
 
                     <% if (undefined !== project.extra && project.extra.trim().length > 0){ %>
-                    <p><%= project.extra %></p>
+                    <p class="wow fadeInUp"><%= project.extra %></p>
                     <% } %>
 
                     <% if (undefined !== project.link && project.link.trim().length > 0){ %>
-                    <p><a href="<%= project.link %>" target="_blank" class="button primary">Sign Up</a></p>
-                    <p><b class="black-font">Note: You are signing up for the upcoming week only.</b></p>
+                    <div class="wow fadeInUp">
+                        <p><a href="<%= project.link %>" target="_blank" class="button primary">Sign Up</a></p>
+                        <p><b class="black-font">Note: You are signing up for the upcoming week only.</b></p>
+                    </div>
                     <% } %>
 
 
 
 
-                    <p>Please join our <a href="https://groupme.com/join_group/49705520/fLu3rQT3" target="_blank"
-                            class="dotted-line">Group
+                    <p class="wow fadeInUp">Please join our <a href="https://groupme.com/join_group/49705520/fLu3rQT3"
+                            target="_blank" class="dotted-line">Group
                             Me</a> chat for more details and updates. <br>
                         This will allow us to make travel arrangements and communicate easily.</p>
 
 
                     <% if (undefined !== project.images && project.images.length > 0){ %>
-
-                    <h3 class="major">Photo Gallery</h3>
-                    <div id="gallery">
-                        <% project.images.forEach(image => { %>
-                        <a href="<%= project.imagePath %><%= image %>" data-fancybox="gallery" data-caption="">
-                            <img src="<%= project.imagePath %><%= image %>" alt="" />
-                        </a>
-                        <% }); %>
+                    <div class="wow fadeInUp">
+                        <h3 class="major">Photo Gallery</h3>
+                        <div id="gallery">
+                            <% project.images.forEach(image => { %>
+                            <a href="<%= project.imagePath %><%= image %>" data-fancybox="gallery" data-caption="">
+                                <img src="<%= project.imagePath %><%= image %>" alt="" />
+                            </a>
+                            <% }); %>
+                        </div>
                     </div>
                     <% } %>
 
-                    <div style="margin-top: 2em; text-align: center;">
+                    <div style="margin-top: 2em; text-align: center;" class="wow fadeInUp">
                         <p><a href="/projects" class="button primary mg-3">See other projects</a></p>
                     </div>
 
