@@ -94,6 +94,10 @@
                                     placeholder="Enter any special notes. If not sign up link provided, enter the details to sign up here"><%= project.extra %>
                                 </textarea>
                             </div>
+                            <div class="field">
+                                <input type="checkbox" id="active" name="project[isActive]" value="true" <% if (project.isActive) { %>  checked <% } %>>
+                                <label for="active">Active Project</label>
+                            </div>
                         </div>
                         <ul class="actions">
                             <li><input type="submit" value="Update Project" /></li>
