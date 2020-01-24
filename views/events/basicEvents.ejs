@@ -22,38 +22,42 @@
 		<section id="wrapper">
 			<header>
 				<div class="inner">
-					<h2>Events</h2>
-					<p>CircleK Loves to Keep Busy!</p>
+					<h2 class="wow fadeInLeft" data-wow-duration="2s">Events</h2>
+					<p class="wow fadeInLeft" data-wow-duration="1s" data-wow-delay="1s">CircleK Loves to Keep Busy!</p>
 				</div>
 			</header>
 
 			<div class="wrapper">
 				<div class="inner">
-					<p>Please join our <a href="https://groupme.com/join_group/49705520/fLu3rQT3" target="_blank"
-							class="dotted-line">Group
-							Me</a> chat for more updates and reminder.</p>
+					<div class="wow fadeInUp" data-wow-duration="1s" data-wow-delay=".5s">
+						<p>Please join our <a href="https://groupme.com/join_group/49705520/fLu3rQT3" target="_blank"
+								class="dotted-line">Group
+								Me</a> chat for more updates and reminder.</p>
 
-					<% include ../partials/flashMessage.ejs %>
+						<% include ../partials/flashMessage.ejs %>
 
-					<p>Please visit our <a href="/projects" class="dotted-line">projects page</a> to sign up for our
-						regular weekly projects</p>
-
-					<h3 class="major">See our Calender</h3>
-					<p id="calender-link">
-						<a href="https://calendar.google.com/calendar/embed?src=gatechcirclek%40gmail.com&ctz=America%2FNew_York"
-							target="blank" class="dotted-line"> Visit our Calender</a>
-					</p>
-
-					<p id="calender">
-						<iframe
-							src="https://calendar.google.com/calendar/b/5/embed?height=600&amp;wkst=1&amp;bgcolor=%23ffffff&amp;ctz=America%2FNew_York&amp;src=Z2F0ZWNoY2lyY2xla0BnbWFpbC5jb20&amp;src=ZW4udXNhI2hvbGlkYXlAZ3JvdXAudi5jYWxlbmRhci5nb29nbGUuY29t&amp;color=%230BBCB2&amp;color=%23007D39"
-							style="border-width:0" width="700" height="600" frameborder="0" scrolling="no"></iframe>
-					</p>
+						<p>Please visit our <a href="/projects" class="dotted-line">projects page</a> to sign up for our
+							regular weekly projects</p>
+					</div>
+					<br>
+					<div class="wow fadeInUp" data-wow-duration="1s" data-wow-delay=".5s">
+						<h3 class="major">See our Calender</h3>
+						<p id="calender-link">
+							<a href="https://calendar.google.com/calendar/embed?src=gatechcirclek%40gmail.com&ctz=America%2FNew_York"
+								target="blank" class="dotted-line"> Visit our Calender</a>
+						</p>
+	
+						<p id="calender">
+							<iframe
+								src="https://calendar.google.com/calendar/b/5/embed?height=600&amp;wkst=1&amp;bgcolor=%23ffffff&amp;ctz=America%2FNew_York&amp;src=Z2F0ZWNoY2lyY2xla0BnbWFpbC5jb20&amp;src=ZW4udXNhI2hvbGlkYXlAZ3JvdXAudi5jYWxlbmRhci5nb29nbGUuY29t&amp;color=%230BBCB2&amp;color=%23007D39"
+								style="border-width:0" width="700" height="600" frameborder="0" scrolling="no"></iframe>
+						</p>
+					</div>					
 
 					<br>
 
 
-					<div id="events">
+					<div id="events" class="wow fadeInUp" data-wow-duration="1.5s">
 						<h3 class="major">Upcoming Events</h3>
 					</div>
 
@@ -94,7 +98,8 @@
 			else {
 				events.forEach(event => {
 					var container = document.createElement('div');
-					container.classList.add('event');
+					container.classList.add('event', 'wow', 'fadeInLeft');
+					container.setAttribute('data-wow-duration','2s');
 
 					// Title
 					var title = document.createElement('h3');

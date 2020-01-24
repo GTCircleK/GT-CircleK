@@ -21,7 +21,7 @@
 				<a href="#menu">Menu</a>
 			</nav>
 		</header>
-		
+
 		<nav id="menu">
 			<div class="inner">
 				<h2>Menu</h2>
@@ -33,8 +33,8 @@
 					<li><a href="/resources">Resources</a></li>
 					<li><a href="/join">Join Us</a></li>
 					<% if (currentUser){ %>
-						<li><a href="/dashboard">Dashboard</a></li>
-						<li><a href="/logout">Logout</a></li>
+					<li><a href="/dashboard">Dashboard</a></li>
+					<li><a href="/logout">Logout</a></li>
 					<% } %>
 				</ul>
 				<a href="#" class="close">Close</a>
@@ -51,7 +51,7 @@
 
 		<section id="wrapper">
 			<section id="one" class="wrapper spotlight style1">
-				<div class="inner">
+				<div class="inner wow fadeInUp" data-wow-duration="2s">
 					<a class="image"><img src="/images/bucky.jpg" alt="" /></a>
 					<div class="content">
 						<h2 class="major">About Us</h2>
@@ -76,13 +76,13 @@
 						<p style="font-size: 0.75em;">*2018-19</p>
 						<a href="/about" class="special">Learn more</a>
 					</div>
-					
+
 
 				</div>
 			</section>
 
 			<section id="two" class="wrapper alt spotlight style2">
-				<div class="inner">
+				<div class="inner wow fadeInUp" data-wow-duration="2s">
 					<a class="image"><img src="/images/project.png" alt="" /></a>
 					<div class="content">
 						<h2 class="major">Projects</h2>
@@ -93,7 +93,7 @@
 			</section>
 
 			<section id="three" class="wrapper spotlight style1">
-				<div class="inner">
+				<div class="inner wow fadeInUp" data-wow-duration="2s">
 					<a class="image"><img src="/images/group.jpg" alt="" /></a>
 					<div class="content">
 						<h2 class="major">Join Us</h2>
@@ -106,7 +106,7 @@
 			</section>
 
 			<section id="two" class="wrapper alt spotlight style2">
-				<div class="inner">
+				<div class="inner wow fadeInUp" data-wow-duration="2s">
 					<a class="image"><img src="/images/event.jpg" alt="" /></a>
 					<div class="content">
 						<h2 class="major">Events</h2>
@@ -124,6 +124,7 @@
 	</div>
 
 	<% include partials/common-scripts.ejs %>
+	
 
 </body>
 
