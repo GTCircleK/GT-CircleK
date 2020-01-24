@@ -6,7 +6,7 @@ let express = require('express'),
 let router = express.Router();
 
 router.get('/projects', (req, res) => {
-    Project.find({}, (err, projects) => {
+    Project.find({'isActive': true}, (err, projects) => {
         if (err || !projects) {
             // If the database is down
             res.render('projects/allProjects', { projects: projectsData });
@@ -60,7 +60,7 @@ router.put('/projects/:id', middleware.isLoggedIn, (req, res) => {
     for(var key in project){
         project[key] = project[key].trim();
     }
-
+    project.isActive = (project.isActive) ? true : false;
     Project.findByIdAndUpdate(req.params.id, project, (err, item) => {
         if (err || !item){
             req.flash('error','Failed to update the project. Please try again later');

@@ -14,7 +14,8 @@ var projectSchema = new mongoose.Schema({
     link: String,
     extra: String,
     imagePath: String,
-    images: [{type: String}]
+    images: [{type: String}],
+    isActive: {type: Boolean, default: true}
 });
 
 module.exports = mongoose.model('Project', projectSchema);
